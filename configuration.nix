@@ -53,7 +53,7 @@
   services.xserver.windowManager.xmonad = {
 	enable = true;
 	enableContribAndExtras = true;
-	config = builtins.readFile /etc/nixos/xmonad.hs;
+	config = builtins.readFile ./xmonad.hs;
   };
 
   # Configure keymap in X11
