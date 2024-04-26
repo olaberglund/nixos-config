@@ -92,15 +92,14 @@
       postPatch = "${oldAttrs.postPatch}\n cp ${configFile} config.h";
     }))
     dmenu
-    autojump
+    zoxide
     bitwarden
     spotify
     gromit-mpx
     flameshot
     ghc
     cabal-install
-    xmobar
-    haskell-language-server
+    haskellPackages.haskell-language-server
     neovim
     tmux
     wget
@@ -110,6 +109,9 @@
     xclip
     gcc
     gnumake
+    zlib
+    fzf
+    zlib.dev
     # iosevka-term
   ];
 
@@ -131,6 +133,8 @@
                 "npm"
                 "history"
                 "node"
+                "zoxide"
+                "cabal"
               ];
           };
       };

@@ -21,10 +21,25 @@
     homeDirectory = "/home/ola";
   };
 
+  home.packages = with pkgs; [
+    zip
+    unzip
+    ripgrep
+    xmobar
+    nodejs_21
+    npm-check
+    conda
+    stack
+  ];
+
   home.file = { 
       ".config/nvim" = {
           source = ./nvim;
           recursive = true;
+      };
+
+      ".background-image" = {
+          source = ./nix-wallpaper-binary-black.png;
       };
   };
 
@@ -34,6 +49,7 @@
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
+
   programs.git = {
       enable = true;
       userName = "Ola Berglund";
@@ -44,7 +60,7 @@
       enable = true;
       defaultEditor = true;
   };
-
+  
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
