@@ -97,9 +97,6 @@
     spotify
     gromit-mpx
     flameshot
-    ghc
-    cabal-install
-    haskellPackages.haskell-language-server
     neovim
     tmux
     wget
