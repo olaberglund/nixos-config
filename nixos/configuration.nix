@@ -108,7 +108,6 @@
     gnumake
     zlib
     fzf
-    zlib.dev
     # iosevka-term
   ];
 

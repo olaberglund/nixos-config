@@ -28,8 +28,17 @@
     xmobar
     nodejs_21
     npm-check
+    zlib
     conda
-    stack
+
+    haskellPackages.stack
+    haskellPackages.ghc
+    haskellPackages.cabal-install
+    haskellPackages.haskell-language-server
+    haskellPackages.stylish-haskell
+
+    pandoc
+
   ];
 
   home.file = { 
@@ -54,6 +63,29 @@
       enable = true;
       userName = "Ola Berglund";
       userEmail = "olakjberglund@gmail.com";
+  };
+
+  programs.ssh.enable = true;
+
+  programs.ssh.matchBlocks = {
+    "github.com-ola" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "/home/ola/.ssh/id_ed25519";
+    };
+
+    "github.com-esgzonex" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "/home/ola/.ssh/id_ed25519_esgzonex";
+    };
+
+    "ovh-server" = {
+        hostname = "51.254.34.164";
+        user = "nonroot";
+        port = 50579; 
+        identityFile = "/home/ola/.ssh/id_ed25519_esgzonex";
+    };
   };
 
   programs.neovim = {
