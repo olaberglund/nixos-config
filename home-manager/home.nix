@@ -30,15 +30,16 @@
     npm-check
     zlib
     conda
+    arandr
+    pandoc
+    slack
+    nerdfonts
 
     haskellPackages.stack
     haskellPackages.ghc
     haskellPackages.cabal-install
     haskellPackages.haskell-language-server
     haskellPackages.stylish-haskell
-
-    pandoc
-
   ];
 
   home.file = { 
@@ -49,6 +50,10 @@
 
       ".background-image" = {
           source = ./nix-wallpaper-binary-black.png;
+      };
+
+      ".tmux.conf" = {
+          source = ./tmux.conf;
       };
   };
 

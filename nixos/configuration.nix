@@ -15,22 +15,22 @@
   # wallpaper: set "~/.background-image"
 
   nixpkgs = {
-    #   packageOverrides = super: let self = super.pkgs; in {
-    #     iosevka-term = self.iosevka.override {
-    #       set = "term";
-    #       privateBuildPlan = ''
-    #         [buildPlans.IosevkaCustom]
-    #         family = "Iosevka Custom"
-    #         spacing = "term"
-    #         serifs = "sans"
-    #         noCvSs = true
-    #         exportGlyphNames = false
+    # config.packageOverrides = super: let self = super.pkgs; in {
+    #   iosevka-term = self.iosevka.override {
+    #     set = "term";
+    #     privateBuildPlan = ''
+    #       [buildPlans.IosevkaCustom]
+    #       family = "Iosevka Custom"
+    #       spacing = "term"
+    #       serifs = "sans"
+    #       noCvSs = true
+    #       exportGlyphNames = false
 
-    #         [buildPlans.IosevkaCustom.ligations]
-    #         inherits = "haskell"
-    #       '';
-    #     };
+    #       [buildPlans.IosevkaCustom.ligations]
+    #       inherits = "haskell"
+    #     '';
     #   };
+    # };
 
     # You can add overlays here
     overlays = [
@@ -102,11 +102,13 @@
     wget
     nitrogen
     feh
+    pavucontrol
     eza
     xclip
     gcc
     gnumake
     zlib
+    xorg.xev
     fzf
     # iosevka-term
   ];
@@ -177,8 +179,8 @@
     LC_MONETARY = "sv_SE.UTF-8";
     LC_NAME = "sv_SE.UTF-8";
     LC_NUMERIC = "sv_SE.UTF-8";
-    LC_PAPER = "sv_SE.UTF-8";
     LC_TELEPHONE = "sv_SE.UTF-8";
+    LC_PAPER = "sv_SE.UTF-8";
     LC_TIME = "sv_SE.UTF-8";
   };
 
@@ -188,6 +190,25 @@
 	enableContribAndExtras = true;
 	config = builtins.readFile ./xmonad.hs;
   };
+
+  # https://www.reddit.com/r/NixOS/comments/soboh9/newbie_question_monitor_positions_not_changing/
+  services.xserver.xrandrHeads = [
+    {
+        output = "DP-3";
+        monitorConfig = ''
+          Option "LeftOf" "DP-2"
+          Option "PreferredMode" "2560x1440_155.00"
+        '';
+    }
+    {
+        output = "DP-2";
+        monitorConfig = ''
+          Option "RightOf" "DP-3"
+          Option "PreferredMode" "2560x1440_155.00"
+        '';
+        primary = true;
+    }
+  ];
 
   # Configure keymap in X11
   services.xserver = {
