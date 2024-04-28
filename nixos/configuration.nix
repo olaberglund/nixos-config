@@ -68,6 +68,7 @@
   #     value.source = value.flake;
   #   })
   #   config.nix.registry;
+  environment.localBinInPath = true;
 
   nix.settings = {
     # Enable flakes and new 'nix' command
@@ -106,6 +107,7 @@
     eza
     xclip
     gcc
+    xorg.libxcvt
     gnumake
     zlib
     xorg.xev
@@ -123,6 +125,9 @@
           autosuggestions.enable = true;
           zsh-autoenv.enable = true;
           syntaxHighlighting.enable = true;
+          shellAliases = {
+              ls = "eza";
+          };
           ohMyZsh = {
               enable = true;
               theme = "robbyrussell";
@@ -138,7 +143,7 @@
       };
   };
 
-  boot.loader.systemd-boot.configurationLimit = 5;
+  boot.loader.systemd-boot.configurationLimit = 10;
 
   nix.gc = {
       automatic = true;
@@ -191,20 +196,23 @@
 	config = builtins.readFile ./xmonad.hs;
   };
 
+  services.xserver.xkbOptions = "caps:ctrl_modifier";
+
   # https://www.reddit.com/r/NixOS/comments/soboh9/newbie_question_monitor_positions_not_changing/
   services.xserver.xrandrHeads = [
     {
         output = "DP-3";
         monitorConfig = ''
           Option "LeftOf" "DP-2"
-          Option "PreferredMode" "2560x1440_155.00"
+          Option "PreferredMode" "2560x1440"
         '';
+        # Modeline "2560x1440_155.00"  876.25  2560 2792 3072 3584  1440 1443 1448 1578 -hsync +vsync
     }
     {
         output = "DP-2";
         monitorConfig = ''
           Option "RightOf" "DP-3"
-          Option "PreferredMode" "2560x1440_155.00"
+          Option "PreferredMode" "2560x1440"
         '';
         primary = true;
     }

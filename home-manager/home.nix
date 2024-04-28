@@ -34,6 +34,12 @@
     pandoc
     slack
     nerdfonts
+    peek
+    lazygit
+    redshift
+    zathura
+    pamixer
+    playerctl
 
     haskellPackages.stack
     haskellPackages.ghc
@@ -54,6 +60,15 @@
 
       ".tmux.conf" = {
           source = ./tmux.conf;
+      };
+
+      ".config/zathura/zathurarc" = {
+          source = ./zathurarc;
+      };
+
+      ".local/bin" = {
+          source = ./scripts;
+          recursive = true;
       };
   };
 
