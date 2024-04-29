@@ -47,6 +47,7 @@ keybindings =
   , ((modm .|. shiftMask, xK_s), sinkAll)
   , ((modm, 0xa7), namedScratchpadAction scratchpads "terminal")
   , ((modm, 0x60), namedScratchpadAction scratchpads "terminal")
+  , ((modm, xK_s), namedScratchpadAction scratchpads "spotify")
   , ((0, xK_Print), spawn "flameshot gui")
   , ((0, 0x1008FF11), spawn "pamixer --allow-boost -d 2") -- decrease master volume
   , ((0, 0x1008FF13), spawn "pamixer --allow-boost -i 2") -- increase music volume
@@ -64,7 +65,9 @@ keybindings =
 
 scratchpads :: [NamedScratchpad]
 scratchpads =
-  [NS "terminal" spawnTerm findTerm scratchpadFloat]
+  [ NS "terminal" spawnTerm findTerm scratchpadFloat
+  , NS "spotify" "spotify" (className =? "Spotify") scratchpadFloat
+  ]
  where
   spawnTerm = myTerminal ++ " -n scratchpad"
   findTerm = resource =? "scratchpad"
