@@ -1,21 +1,23 @@
 import XMonad
 
+import XMonad.Actions.CycleWS (toggleWS')
 import XMonad.Actions.DwmPromote (dwmpromote)
 import XMonad.Actions.FindEmptyWorkspace (viewEmptyWorkspace)
 import XMonad.Actions.WithAll (sinkAll)
-import XMonad.Actions.WorkspaceNames (renameWorkspace)
+import XMonad.Actions.WorkspaceNames (renameWorkspace, workspaceNamesPP)
 import XMonad.Hooks.DynamicLog (xmobarProp)
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageDocks (docks)
 import XMonad.Hooks.StatusBar (statusBarProp, withEasySB)
-import XMonad.Hooks.StatusBar.PP (def, sjanssenPP, xmobarPP)
-import XMonad.StackSet (RationalRect (..))
+import XMonad.Hooks.StatusBar.PP (def, filterOutWsPP, xmobarPP)
+import XMonad.StackSet (RationalRect (..), greedyView, tag, visible, workspace)
 import XMonad.Util.EZConfig (additionalKeys)
-import XMonad.Util.NamedScratchpad (NamedScratchpad (..), customFloating, namedScratchpadAction, namedScratchpadManageHook)
+import XMonad.Util.NamedScratchpad (NamedScratchpad (..), customFloating, namedScratchpadAction, namedScratchpadManageHook, scratchpadWorkspaceTag)
 
-mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/xmobarrc" (pure xmobarPP)) hideSB
+mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/xmobarrc" myXmobarPP) hideSB
  where
   hideSB = const (modm, xK_b)
+  myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP xmobarPP
 
 main =
   xmonad
@@ -61,6 +63,10 @@ keybindings =
   , ((mod1Mask, xK_r), spawn "rs 4")
   , ((mod1Mask, xK_t), spawn "rs 5")
   , ((mod1Mask, xK_space), spawn "(setxkbmap -query | grep -q \"layout:\\s\\+us\") && setxkbmap se || setxkbmap us; xmodmap /home/ola/.Xmodmap")
+  , ((modm, xK_i), sendMessage (IncMasterN 1))
+  , ((modm, xK_d), sendMessage (IncMasterN (-1)))
+  , ((modm, xK_Tab), toggleWS' [scratchpadWorkspaceTag])
+  , ((mod1Mask, xK_a), windows $ greedyView =<< tag . workspace . head . visible)
   ]
 
 scratchpads :: [NamedScratchpad]

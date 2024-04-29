@@ -103,6 +103,7 @@
     wget
     nitrogen
     feh
+    pkg-config
     pavucontrol
     eza
     xclip
@@ -257,7 +258,7 @@
   users.users.ola = {
     isNormalUser = true;
     description = "ola";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
     ];
@@ -265,6 +266,8 @@
     #   # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
     # ];
   };
+
+  virtualisation.docker.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
