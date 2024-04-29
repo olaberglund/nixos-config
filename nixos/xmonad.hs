@@ -10,7 +10,7 @@ import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageDocks (docks)
 import XMonad.Hooks.StatusBar (statusBarProp, withEasySB)
 import XMonad.Hooks.StatusBar.PP (def, filterOutWsPP, xmobarPP)
-import XMonad.StackSet (RationalRect (..), greedyView, tag, visible, workspace)
+import XMonad.StackSet (RationalRect (..), greedyView, shift, tag, view, visible, workspace)
 import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.NamedScratchpad (NamedScratchpad (..), customFloating, namedScratchpadAction, namedScratchpadManageHook, scratchpadWorkspaceTag)
 
@@ -44,9 +44,8 @@ keybindings =
   , ((modm, xK_q), kill)
   , ((modm, xK_w), dwmpromote)
   , ((modm, xK_space), spawn "firefox")
-  , ((modm, xK_r), renameWorkspace def)
-  , ((modm, xK_e), viewEmptyWorkspace)
-  , ((modm .|. shiftMask, xK_s), sinkAll)
+  , -- , ((modm, xK_e), viewEmptyWorkspace)
+    ((modm .|. shiftMask, xK_s), sinkAll)
   , ((modm, 0xa7), namedScratchpadAction scratchpads "terminal")
   , ((modm, 0x60), namedScratchpadAction scratchpads "terminal")
   , ((modm, xK_s), namedScratchpadAction scratchpads "spotify")
@@ -68,6 +67,10 @@ keybindings =
   , ((modm, xK_Tab), toggleWS' [scratchpadWorkspaceTag])
   , ((mod1Mask, xK_a), windows $ greedyView =<< tag . workspace . head . visible)
   ]
+    ++ [ ((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+       | (key, sc) <- zip [xK_w, xK_e] [1, 0]
+       , (f, m) <- [(view, 0), (shift, shiftMask)]
+       ]
 
 scratchpads :: [NamedScratchpad]
 scratchpads =
