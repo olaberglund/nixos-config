@@ -150,13 +150,6 @@
       dates = "daily";
   };
 
-  # virtualisation.virtualbox.guest.enable = true;
-
-  # Bootloader.
-  #boot.loader.grub.enable = true;
-  #boot.loader.grub.device = "/dev/sda";
-  #boot.loader.grub.useOSProber = true;
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -198,25 +191,34 @@
 
   services.xserver.xkbOptions = "caps:ctrl_modifier";
 
-  # https://www.reddit.com/r/NixOS/comments/soboh9/newbie_question_monitor_positions_not_changing/
-  services.xserver.xrandrHeads = [
-    {
-        output = "DP-3";
-        monitorConfig = ''
-          Option "LeftOf" "DP-2"
-          Option "PreferredMode" "2560x1440"
-        '';
-        # Modeline "2560x1440_155.00"  876.25  2560 2792 3072 3584  1440 1443 1448 1578 -hsync +vsync
-    }
-    {
-        output = "DP-2";
-        monitorConfig = ''
-          Option "RightOf" "DP-3"
-          Option "PreferredMode" "2560x1440"
-        '';
-        primary = true;
-    }
-  ];
+  services.xserver.displayManager.setupCommands = ''
+    LEFT='DP-0'
+    RIGHT='DP-4'
+    ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT  --mode 2560x1440 --rate 155 --output $RIGHT --primary  --mode 2560x1440 --pos 2560x0 --right-of $LEFT --rate 155
+    ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
+ '';
+
+  hardware.opengl = {
+     enable = true;
+     driSupport = true;
+     driSupport32Bit = true;
+  };
+
+  services.xserver.videoDrivers = ["nvidia"];
+
+  hardware.nvidia = {
+      modesetting.enable = true;
+
+      powerManagement.enable = false;
+
+      powerManagement.finegrained = false;
+
+      open = false;
+
+      nvidiaSettings = true;
+
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   # Configure keymap in X11
   services.xserver = {

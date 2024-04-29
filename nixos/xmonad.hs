@@ -59,6 +59,7 @@ keybindings =
   , ((mod1Mask, xK_e), spawn "rs 3")
   , ((mod1Mask, xK_r), spawn "rs 4")
   , ((mod1Mask, xK_t), spawn "rs 5")
+  , ((mod1Mask, xK_space), spawn "(setxkbmap -query | grep -q \"layout:\\s\\+us\") && setxkbmap se || setxkbmap us; xmodmap /home/ola/.Xmodmap")
   ]
 
 scratchpads :: [NamedScratchpad]

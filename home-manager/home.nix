@@ -55,7 +55,7 @@
       };
 
       ".background-image" = {
-          source = ./nix-wallpaper-binary-black.png;
+          source = ./wallpaper.png;
       };
 
       ".tmux.conf" = {
