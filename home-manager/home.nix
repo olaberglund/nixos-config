@@ -112,6 +112,33 @@
       enable = true;
       defaultEditor = true;
   };
+
+  programs.zoxide.enable = true;
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    shellAliases = {
+        ls = "eza";
+    };
+    initExtra = ''
+      KEYTIMEOUT=1;
+      chpwd() ls -a
+      autoload -Uz compinit && compinit
+      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+    '';
+
+    plugins = [
+      { 
+        name = "vi-mode";
+        src = pkgs.zsh-vi-mode;
+        file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+      }
+    ];
+  };
+
+  programs.starship.enable = true;
+
   
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

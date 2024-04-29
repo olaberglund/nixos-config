@@ -124,25 +124,14 @@
       zsh = {
           enable = true;
           autosuggestions.enable = true;
-          zsh-autoenv.enable = true;
           syntaxHighlighting.enable = true;
-          shellAliases = {
-              ls = "eza";
-          };
-          ohMyZsh = {
-              enable = true;
-              theme = "robbyrussell";
-              plugins = [
-                "git"
-                "npm"
-                "history"
-                "node"
-                "zoxide"
-                "cabal"
-              ];
-          };
       };
+
+      starship.enable = true;
   };
+  
+  # https://github.com/nix-community/home-manager/blob/2af7c78b7bb9cf18406a193eba13ef9f99388f49/modules/programs/zsh.nix#L351
+  environment.pathsToLink = [ "/share/zsh" ];
 
   boot.loader.systemd-boot.configurationLimit = 10;
 
@@ -204,7 +193,7 @@
      driSupport = true;
      driSupport32Bit = true;
   };
-
+  
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
