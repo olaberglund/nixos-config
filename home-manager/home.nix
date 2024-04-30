@@ -28,7 +28,6 @@
     xmobar
     nodejs_21
     npm-check
-    zlib
     conda
     arandr
     pandoc
@@ -123,7 +122,7 @@
     };
     initExtra = ''
       KEYTIMEOUT=1;
-      chpwd() ls -a
+      chpwd() ls
       autoload -Uz compinit && compinit
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
     '';
