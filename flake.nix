@@ -8,6 +8,11 @@
             url = "github:nix-community/home-manager/release-23.11";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
+        purescript-overlay = {
+            url = "github:thomashoneyman/purescript-overlay";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
     outputs = {self, nixpkgs, home-manager, ...}@inputs: {
@@ -20,6 +25,7 @@
                     home-manager.useUserPackages = true;
                     home-manager.users.ola = import ./home-manager/home.nix;
                 }
+                ({ nixpkgs.overlays = [ inputs.purescript-overlay.overlays.default ]; })
             ];
         };
     };

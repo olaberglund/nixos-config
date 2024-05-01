@@ -172,6 +172,11 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
+  networking.firewall = {
+      enable = true;
+      allowedTCPPorts = [ 1337 ]; 
+  };
+
   # Enable xmonad
   services.xserver.windowManager.xmonad = {
 	enable = true;

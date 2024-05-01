@@ -33,6 +33,7 @@
     pandoc
     slack
     nerdfonts
+    discord
     peek
     lazygit
     redshift
@@ -45,7 +46,21 @@
     haskellPackages.cabal-install
     haskellPackages.haskell-language-server
     haskellPackages.stylish-haskell
+
+    purs
+    spago-unstable
+    purs-tidy-bin.purs-tidy-0_10_0
   ];
+
+  # systemd.user.services.rinderSession = {
+  #   Install = { WantedBy = [ "default.target" ]; };
+  #   Unit = {
+  #     Description = "Start Rinder (track expenses)";
+  #   };
+  #   Service = {
+  #       ExecStart = "(cd /home/ola/Code/rinder && ${pkgs.cabal-install}/bin/cabal run rinder -- 1337)";
+  #   };
+  # };
 
   home.file = { 
       ".config/nvim" = {
@@ -122,7 +137,7 @@
     };
     initExtra = ''
       KEYTIMEOUT=1;
-      chpwd() ls
+      chpwd() eza 
       autoload -Uz compinit && compinit
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
     '';
