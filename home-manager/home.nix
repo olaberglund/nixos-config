@@ -40,7 +40,9 @@
     zathura
     pamixer
     playerctl
+    libreoffice
 
+    ghcid
     haskellPackages.stack
     haskellPackages.ghc
     haskellPackages.cabal-install
@@ -52,15 +54,16 @@
     purs-tidy-bin.purs-tidy-0_10_0
   ];
 
-  # systemd.user.services.rinderSession = {
-  #   Install = { WantedBy = [ "default.target" ]; };
-  #   Unit = {
-  #     Description = "Start Rinder (track expenses)";
-  #   };
-  #   Service = {
-  #       ExecStart = "(cd /home/ola/Code/rinder && ${pkgs.cabal-install}/bin/cabal run rinder -- 1337)";
-  #   };
-  # };
+  systemd.user.services.rinderSession = {
+    Install = { WantedBy = [ "default.target" ]; };
+    Unit = {
+      Description = "Rinder (track expenses)";
+    };
+    Service = {
+        WorkingDirectory = "/home/ola/Code/rinder";
+        ExecStart = "${pkgs.cabal-install}/bin/cabal --ghc --with-compiler=${pkgs.ghc}/bin/ghc run rinder -- 1337";
+    };
+  };
 
   home.file = { 
       ".config/nvim" = {
