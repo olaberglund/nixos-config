@@ -40,6 +40,7 @@
     zathura
     pamixer
     playerctl
+    mpv
     libreoffice
 
     ghcid
@@ -48,6 +49,7 @@
     haskellPackages.cabal-install
     haskellPackages.haskell-language-server
     haskellPackages.stylish-haskell
+    haskellPackages.fourmolu
 
     purs
     spago-unstable
