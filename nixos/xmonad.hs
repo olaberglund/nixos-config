@@ -69,7 +69,7 @@ keybindings =
     , ((0, 0x1008FF14), spawn "playerctl play-pause") -- increase music volume
     , ((0, 0x1008FF16), spawn "playerctl previous") -- increase music volume
     , ((0, 0x1008FF17), spawn "playerctl next") -- increase music volume
-    -- , ((mod1Mask, xK_space), spawn "(setxkbmap -query | grep -q \"layout:\\s\\+us\") && setxkbmap se || setxkbmap us; xmodmap /home/ola/.Xmodmap")
+    , ((mod1Mask, xK_space), spawn "(setxkbmap -query | grep -q \"layout:\\s\\+us\") && setxkbmap se || setxkbmap us; xmodmap /home/ola/.Xmodmap")
     , ((modm, xK_i), sendMessage (IncMasterN 1))
     , ((modm, xK_d), sendMessage (IncMasterN (-1)))
     , ((modm, xK_Tab), toggleWS' [scratchpadWorkspaceTag])

@@ -1,7 +1,7 @@
 Config { 
 
    -- appearance
-     font =         "Bitstream Vera Sans Mono Bold 9"
+     font =         "Iosevka Custom:pixelsize=18:antialias=true:autohint=true"
    , bgColor =      "black"
    , fgColor =      "#646464"
    , position =     Top

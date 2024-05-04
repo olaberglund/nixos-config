@@ -15,23 +15,6 @@
   # wallpaper: set "~/.background-image"
 
   nixpkgs = {
-    # config.packageOverrides = super: let self = super.pkgs; in {
-    #   iosevka-term = self.iosevka.override {
-    #     set = "term";
-    #     privateBuildPlan = ''
-    #       [buildPlans.IosevkaCustom]
-    #       family = "Iosevka Custom"
-    #       spacing = "term"
-    #       serifs = "sans"
-    #       noCvSs = true
-    #       exportGlyphNames = false
-
-    #       [buildPlans.IosevkaCustom.ligations]
-    #       inherits = "haskell"
-    #     '';
-    #   };
-    # };
-
     # You can add overlays here
     overlays = [
       # If you want to use overlays exported from other flakes:
@@ -113,12 +96,27 @@
     zlib
     xorg.xev
     fzf
-    # iosevka-term
   ];
 
-  fonts.packages = with pkgs; [
-    iosevka
-  ];
+  fonts = { 
+    packages = with pkgs; [
+      (iosevka.override {
+        set = "custom";
+        privateBuildPlan = ''
+          [buildPlans.iosevka-custom]
+          family = "Iosevka Custom"
+          spacing = "normal"
+          serifs = "sans"
+          noCvSs = true
+          exportGlyphNames = false
+
+          [buildPlans.iosevka-custom.ligations]
+          inherits = "haskell"
+        '';
+      })
+    ];
+ };
+
 
   programs = {
       zsh = {
