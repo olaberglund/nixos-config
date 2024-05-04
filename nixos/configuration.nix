@@ -199,6 +199,8 @@
      driSupport32Bit = true;
   };
   
+  services.preload.enable = true;
+
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {

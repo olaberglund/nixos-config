@@ -139,6 +139,8 @@
     enableCompletion = true;
     shellAliases = {
         ls = "eza";
+        e = "nvim";
+        gp = "git push";
     };
     initExtra = ''
       KEYTIMEOUT=1;
@@ -158,7 +160,6 @@
 
   programs.starship.enable = true;
 
-  
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
