@@ -84,12 +84,7 @@
       ".config/zathura/zathurarc" = {
           source = ./zathurarc;
       };
-
-      ".local/bin" = {
-          source = ./scripts;
-          recursive = true;
-      };
-  };
+  } // builtins.listToAttrs (builtins.map (x: { name = ".local/bin/" + x; value = { source = ./. + "/scripts/${x}"; executable = true; };}) (builtins.attrNames (builtins.readDir ./scripts)));
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
