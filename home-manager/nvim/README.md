@@ -1,4 +1,5 @@
-# 💤 LazyVim
+# TODO
 
-A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
-Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
+- transaction backup service
+- Markdown formatter, lsp etc.
+- md-watch 

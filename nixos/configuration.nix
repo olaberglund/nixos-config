@@ -1,16 +1,6 @@
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
+{ inputs, lib, config, pkgs, ... }: {
   # You can import other NixOS modules here
-  imports = [
-    ./vim.nix
-    ./firefox.nix
-    ./hardware-configuration.nix
-  ];
+  imports = [ ./vim.nix ./firefox.nix ./hardware-configuration.nix ];
 
   # wallpaper: set "~/.background-image"
 
@@ -34,9 +24,6 @@
     };
   };
 
-
-
-
   # This will add each flake input as a registry
   # To make nix3 commands consistent with your flake
   # nix.registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
@@ -55,7 +42,7 @@
 
   nix.settings = {
     # Enable flakes and new 'nix' command
-    experimental-features = ["nix-command" "flakes" ];
+    experimental-features = [ "nix-command" "flakes" ];
     # Deduplicate and optimize nix store
     auto-optimise-store = true;
   };
@@ -64,16 +51,18 @@
     git
     (st.overrideAttrs (oldAttrs: rec {
       src = fetchFromGitHub {
-          owner = "LukeSmithxyz";
-          repo = "st";
-          rev = "36d225d71d448bfe307075580f0d8ef81eeb5a87";
-          sha256 =  "u8E8/aqbL3T4Sz0olazg7VYxq30haRdSB1SRy7MiZiA=";
+        owner = "LukeSmithxyz";
+        repo = "st";
+        rev = "36d225d71d448bfe307075580f0d8ef81eeb5a87";
+        sha256 = "u8E8/aqbL3T4Sz0olazg7VYxq30haRdSB1SRy7MiZiA=";
       };
 
       buildInputs = oldAttrs.buildInputs ++ [ harfbuzz ];
 
       configFile = writeText "config.h" (builtins.readFile ./config.h);
-      postPatch = "${oldAttrs.postPatch}\n cp ${configFile} config.h";
+      postPatch = ''
+        ${oldAttrs.postPatch}
+         cp ${configFile} config.h'';
     }))
     dmenu
     zoxide
@@ -98,44 +87,44 @@
     fzf
   ];
 
-  fonts = { 
-    packages = with pkgs; [
-      (iosevka.override {
-        set = "custom";
-        privateBuildPlan = ''
-          [buildPlans.iosevka-custom]
-          family = "Iosevka Custom"
-          spacing = "normal"
-          serifs = "sans"
-          noCvSs = true
-          exportGlyphNames = false
+  fonts = {
+    packages = with pkgs;
+      [
+        (iosevka.override {
+          set = "custom";
+          privateBuildPlan = ''
+            [buildPlans.iosevka-custom]
+            family = "Iosevka Custom"
+            spacing = "normal"
+            serifs = "sans"
+            noCvSs = true
+            exportGlyphNames = false
 
-          [buildPlans.iosevka-custom.ligations]
-          inherits = "haskell"
-        '';
-      })
-    ];
- };
-
+            [buildPlans.iosevka-custom.ligations]
+            inherits = "haskell"
+          '';
+        })
+      ];
+  };
 
   programs = {
-      zsh = {
-          enable = true;
-          autosuggestions.enable = true;
-          syntaxHighlighting.enable = true;
-      };
+    zsh = {
+      enable = true;
+      autosuggestions.enable = true;
+      syntaxHighlighting.enable = true;
+    };
 
-      starship.enable = true;
+    starship.enable = true;
   };
-  
+
   # https://github.com/nix-community/home-manager/blob/2af7c78b7bb9cf18406a193eba13ef9f99388f49/modules/programs/zsh.nix#L351
   environment.pathsToLink = [ "/share/zsh" ];
 
   boot.loader.systemd-boot.configurationLimit = 10;
 
   nix.gc = {
-      automatic = true;
-      dates = "daily";
+    automatic = true;
+    dates = "daily";
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -171,15 +160,15 @@
   };
 
   networking.firewall = {
-      enable = true;
-      allowedTCPPorts = [ 1337 ]; 
+    enable = true;
+    allowedTCPPorts = [ 1337 ];
   };
 
   # Enable xmonad
   services.xserver.windowManager.xmonad = {
-	enable = true;
-	enableContribAndExtras = true;
-	config = builtins.readFile ./xmonad.hs;
+    enable = true;
+    enableContribAndExtras = true;
+    config = builtins.readFile ./xmonad.hs;
   };
 
   services.xserver.xkbOptions = "caps:ctrl_modifier";
@@ -189,30 +178,30 @@
     RIGHT='DP-4'
     ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT  --mode 2560x1440 --rate 155 --output $RIGHT --primary  --mode 2560x1440 --pos 2560x0 --right-of $LEFT --rate 155
     ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
- '';
+  '';
 
   hardware.opengl = {
-     enable = true;
-     driSupport = true;
-     driSupport32Bit = true;
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
   };
-  
+
   services.preload.enable = true;
 
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
-      modesetting.enable = true;
+    modesetting.enable = true;
 
-      powerManagement.enable = false;
+    powerManagement.enable = false;
 
-      powerManagement.finegrained = false;
+    powerManagement.finegrained = false;
 
-      open = false;
+    open = false;
 
-      nvidiaSettings = true;
+    nvidiaSettings = true;
 
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   # Configure keymap in X11
@@ -253,18 +242,16 @@
     isNormalUser = true;
     description = "ola";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [
-      firefox
-    ];
+    packages = with pkgs; [ firefox ];
     # openssh.authorizedKeys.keys = [
     #   # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
     # ];
   };
-
   virtualisation.docker.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
+  #
 
   users.defaultUserShell = pkgs.zsh;
 

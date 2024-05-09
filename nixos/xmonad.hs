@@ -11,10 +11,12 @@ import           XMonad.Actions.EasyMotion         (EasyMotionConfig (cancelKey)
                                                     selectWindow)
 import           XMonad.Actions.FindEmptyWorkspace (viewEmptyWorkspace)
 import           XMonad.Actions.Submap             (submap)
-import           XMonad.Actions.WindowGo           (runOrRaiseMaster)
+import           XMonad.Actions.WindowGo           (runOrRaiseAndDo,
+                                                    runOrRaiseMaster)
 import           XMonad.Actions.WithAll            (sinkAll)
 import           XMonad.Actions.WorkspaceNames     (renameWorkspace,
                                                     workspaceNamesPP)
+import           XMonad.Config.Prime               (Query)
 import           XMonad.Hooks.DynamicLog           (xmobarProp)
 import           XMonad.Hooks.EwmhDesktops         (ewmh, ewmhFullscreen)
 import           XMonad.Hooks.ManageDocks          (docks)
@@ -22,8 +24,9 @@ import           XMonad.Hooks.StatusBar            (statusBarProp, withEasySB)
 import           XMonad.Hooks.StatusBar.PP         (filterOutWsPP, xmobarPP)
 import           XMonad.StackSet                   (RationalRect (..),
                                                     focusWindow, greedyView,
-                                                    peek, shift, tag, view,
-                                                    visible, workspace)
+                                                    integrate', peek, shift,
+                                                    stack, swapMaster, tag,
+                                                    view, visible, workspace)
 import           XMonad.Util.EZConfig              (additionalKeys)
 import           XMonad.Util.NamedScratchpad       (NamedScratchpad (..),
                                                     customFloating,
@@ -67,7 +70,7 @@ keybindings =
     , ((modm, xK_Return), spawn $ myTerminal <> " -e tmux")
     , ((modm, xK_q), kill)
     , ((modm, xK_w), dwmpromote)
-    , ((modm, xK_space), runOrRaiseMaster browser (className =? "firefox"))
+    , ((modm, xK_space), runOrRaiseMasterShift browser (className =? "firefox"))
     , ((modm .|. shiftMask, xK_space), spawn browser)
     , ((modm, xK_e), viewEmptyWorkspace)
     , ((modm .|. shiftMask, xK_s), sinkAll)
@@ -97,6 +100,12 @@ keybindings =
 
 -- ifEmpty :: X () -> X ()
 -- ifEmpty = whenX (withWindowSet (return . isNothing . peek))
+
+runOrRaiseMasterShift :: String -> Query Bool -> X ()
+runOrRaiseMasterShift run query = runOrRaiseAndDo run query (\wId -> whenX (elem wId <$> visibleWindows) swapNextScreen >> windows swapMaster)
+  where
+    visibleWindows :: X [Window]
+    visibleWindows = withWindowSet (return . concatMap (integrate' . stack . workspace) . visible)
 
 redshiftCmd :: Int -> String
 redshiftCmd level = "redshift -PO " <> show (1000 * (6 - level)) <> " /dev/null 2>&1"

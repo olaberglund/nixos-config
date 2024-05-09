@@ -1,12 +1,6 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
+{ inputs, lib, config, pkgs, ... }: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -14,7 +8,6 @@
 
     # You can also split up your configuration and import pieces of it here:
   ];
-
 
   home = {
     username = "ola";
@@ -25,6 +18,7 @@
     zip
     unzip
     ripgrep
+    gdrive3
     xmobar
     nodejs_21
     npm-check
@@ -42,6 +36,11 @@
     playerctl
     mpv
     libreoffice
+    watchexec
+    entr
+    nixfmt
+    marksman
+    texliveSmall
 
     ghcid
     haskellPackages.stack
@@ -58,33 +57,50 @@
 
   systemd.user.services.rinderSession = {
     Install = { WantedBy = [ "default.target" ]; };
-    Unit = {
-      Description = "Rinder (track expenses)";
-    };
+    Unit = { Description = "Rinder (track expenses)"; };
     Service = {
-        WorkingDirectory = "/home/ola/Code/rinder";
-        ExecStart = "${pkgs.cabal-install}/bin/cabal --ghc --with-compiler=${pkgs.ghc}/bin/ghc run rinder -- 1337";
+      WorkingDirectory = "/home/ola/Code/rinder";
+      ExecStart =
+        "${pkgs.cabal-install}/bin/cabal --ghc --with-compiler=${pkgs.ghc}/bin/ghc run rinder -- 1337";
     };
   };
 
-  home.file = { 
-      ".config/nvim" = {
-          source = ./nvim;
-          recursive = true;
-      };
+  systemd.user.services.gromitSession = {
+    Install = { WantedBy = [ "default.target" ]; };
+    Unit = { Description = "Gromit (draw on screen)"; };
+    Service = { ExecStart = "${pkgs.gromit-mpx}/bin/gromit-mpx"; };
+  };
 
-      ".background-image" = {
-          source = ./wallpaper.png;
-      };
+  systemd.user.services.rinderTransactionsSession = {
+    Install = { WantedBy = [ "default.target" ]; };
+    Unit = { Description = "Backup Rinder transactions"; };
+    Service = {
+      ExecStart = "${pkgs.writeShellScript "watch-transactions" ''
+        #!/run/current-system/sw/bin/bash
 
-      ".tmux.conf" = {
-          source = ./tmux.conf;
-      };
+        echo /home/ola/Code/rinder/transactions.json | ${pkgs.entr}/bin/entr -n bash /home/ola/.local/bin/update-transactions.sh
+      ''}";
+    };
+  };
 
-      ".config/zathura/zathurarc" = {
-          source = ./zathurarc;
-      };
-  } // builtins.listToAttrs (builtins.map (x: { name = ".local/bin/" + x; value = { source = ./. + "/scripts/${x}"; executable = true; };}) (builtins.attrNames (builtins.readDir ./scripts)));
+  home.file = {
+    ".config/nvim" = {
+      source = ./nvim;
+      recursive = true;
+    };
+
+    ".background-image" = { source = ./wallpaper.png; };
+
+    ".tmux.conf" = { source = ./tmux.conf; };
+
+    ".config/zathura/zathurarc" = { source = ./zathurarc; };
+  } // builtins.listToAttrs (builtins.map (x: {
+    name = ".local/bin/" + x;
+    value = {
+      source = ./. + "/scripts/${x}";
+      executable = true;
+    };
+  }) (builtins.attrNames (builtins.readDir ./scripts)));
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
@@ -94,37 +110,37 @@
   programs.home-manager.enable = true;
 
   programs.git = {
-      enable = true;
-      userName = "Ola Berglund";
-      userEmail = "olakjberglund@gmail.com";
+    enable = true;
+    userName = "Ola Berglund";
+    userEmail = "olakjberglund@gmail.com";
   };
 
   programs.ssh.enable = true;
 
   programs.ssh.matchBlocks = {
     "github.com-ola" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "/home/ola/.ssh/id_ed25519";
+      hostname = "github.com";
+      user = "git";
+      identityFile = "/home/ola/.ssh/id_ed25519";
     };
 
     "github.com-esgzonex" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "/home/ola/.ssh/id_ed25519_esgzonex";
+      hostname = "github.com";
+      user = "git";
+      identityFile = "/home/ola/.ssh/id_ed25519_esgzonex";
     };
 
     "ovh-server" = {
-        hostname = "51.254.34.164";
-        user = "nonroot";
-        port = 50579; 
-        identityFile = "/home/ola/.ssh/id_ed25519_esgzonex";
+      hostname = "51.254.34.164";
+      user = "nonroot";
+      port = 50579;
+      identityFile = "/home/ola/.ssh/id_ed25519_esgzonex";
     };
   };
 
   programs.neovim = {
-      enable = true;
-      defaultEditor = true;
+    enable = true;
+    defaultEditor = true;
   };
 
   programs.zoxide.enable = true;
@@ -133,9 +149,9 @@
     enable = true;
     enableCompletion = true;
     shellAliases = {
-        ls = "eza";
-        e = "nvim";
-        gp = "git push";
+      ls = "eza";
+      e = "nvim";
+      gp = "git push";
     };
     initExtra = ''
       KEYTIMEOUT=1;
@@ -144,13 +160,11 @@
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
     '';
 
-    plugins = [
-      { 
-        name = "vi-mode";
-        src = pkgs.zsh-vi-mode;
-        file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-      }
-    ];
+    plugins = [{
+      name = "vi-mode";
+      src = pkgs.zsh-vi-mode;
+      file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+    }];
   };
 
   programs.starship.enable = true;
