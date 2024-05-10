@@ -36,7 +36,6 @@
     playerctl
     mpv
     libreoffice
-    watchexec
     entr
     nixfmt
     marksman

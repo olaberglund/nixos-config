@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 [ $(pamixer --get-mute) = true ] && echo '[----XX----]' && exit 0
 
