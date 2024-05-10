@@ -249,6 +249,12 @@
   };
   virtualisation.docker.enable = true;
 
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+    ports = [ 22 58549 ];
+  };
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   #

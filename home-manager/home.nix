@@ -76,9 +76,19 @@
     Unit = { Description = "Backup Rinder transactions"; };
     Service = {
       ExecStart = "${pkgs.writeShellScript "watch-transactions" ''
-        #!/run/current-system/sw/bin/bash
+        #!${pkgs.bash}/bin/bash
+        export SHELL=${pkgs.bash}/bin/bash
 
-        echo /home/ola/Code/rinder/transactions.json | ${pkgs.entr}/bin/entr -n bash /home/ola/.local/bin/update-transactions.sh
+        backup() {
+          temp_file=$(${pkgs.coreutils}/bin/mktemp)
+          ${pkgs.zip}/bin/gzip -c /home/ola/Code/rinder/transactions.json > "$temp_file"
+          ${pkgs.gdrive3}/bin/gdrive files update 1xJaSg5vrV9EXG36z74B5ynSgI6jzT-sJ --mime application/json "$temp_file"
+          ${pkgs.coreutils}/bin/rm "$temp_file"
+        }
+
+        export -f backup
+
+        ${pkgs.coreutils}/bin/echo /home/ola/Code/rinder/transactions.json | ${pkgs.entr}/bin/entr -rpsn '${pkgs.coreutils}/bin/sleep 5m; backup'
       ''}";
     };
   };
