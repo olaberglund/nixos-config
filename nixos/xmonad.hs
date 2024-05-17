@@ -70,7 +70,7 @@ keybindings =
     , ((modm, xK_Return), spawn $ myTerminal <> " -e tmux")
     , ((modm, xK_q), kill)
     , ((modm, xK_w), dwmpromote)
-    , ((modm, xK_space), runOrRaiseMaster browser (className =? "firefox"))
+    , ((modm, xK_space), runOrRaiseMasterShift browser (className =? "firefox"))
     , ((modm .|. shiftMask, xK_space), spawn browser)
     , ((modm, xK_e), viewEmptyWorkspace)
     , ((modm .|. shiftMask, xK_s), sinkAll)
@@ -117,7 +117,7 @@ toggleKbLangCmd = "(setxkbmap -query | grep -q \"layout:\\s\\+us\") && setxkbmap
 scratchpads :: [NamedScratchpad]
 scratchpads =
     [ NS "terminal" spawnTerm findTerm (scratchpadCentered 0.5 0.5)
-    , NS spotify spotify (className =? "Spotify") (scratchpadCentered 0.8 0.6)
+    , NS spotify spotify (className =? "Spotify") (scratchpadCentered 0.8 0.8)
     ]
         <> [ NS
             ("terminal-" <> show q)

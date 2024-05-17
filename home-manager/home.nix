@@ -37,8 +37,16 @@
     mpv
     libreoffice
     entr
+
     nixfmt
+    shfmt
+    stylua
     marksman
+    markdownlint-cli
+    fish
+    nodePackages.prettier
+    lua-language-server
+
     texliveSmall
 
     ghcid
@@ -111,10 +119,6 @@
     };
   }) (builtins.attrNames (builtins.readDir ./scripts)));
 
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
-
   # Enable home-manager and git
   programs.home-manager.enable = true;
 
@@ -161,6 +165,12 @@
       ls = "eza";
       e = "nvim";
       gp = "git push";
+      gs = "git status";
+      gc = "git commit";
+      ga = "git add";
+      gsl = "git stash list --date=local";
+      z = "zathura";
+      tk = "tmux kill-server";
     };
     initExtra = ''
       KEYTIMEOUT=1;

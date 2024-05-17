@@ -1,19 +1,18 @@
 return {
-       "stevearc/conform.nvim",
-       opts = {
-          formatters_by_ft = { 
-              haskell = { "fourmolu" , "stylish" },
-              nix = { "nixfmt" },
-          }, 
+  "stevearc/conform.nvim",
+  opts = {
+    formatters_by_ft = {
+      haskell = { "fourmolu", "my_stylish" },
+      nix = { "my_nixfmt" },
+    },
 
-          formatters = {
-                stylish = {
-                    command = "stylish-haskell",
-                },
-                nixfmt = {
-                    command = "nixfmt"
-                }
-          },
-       },
+    formatters = {
+      my_stylish = {
+        command = "stylish-haskell",
+      },
+      my_nixfmt = {
+        command = "nixfmt",
+      },
+    },
+  },
 }
-
