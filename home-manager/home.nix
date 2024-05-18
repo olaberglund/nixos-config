@@ -37,6 +37,7 @@
     mpv
     libreoffice
     entr
+    ranger
 
     nixfmt
     shfmt
@@ -55,6 +56,7 @@
     haskellPackages.cabal-install
     haskellPackages.haskell-language-server
     haskellPackages.stylish-haskell
+    haskellPackages.cabal-fmt
     haskellPackages.fourmolu
 
     purs
@@ -166,10 +168,11 @@
       e = "nvim";
       gp = "git push";
       gs = "git status";
+      gd = "git diff";
+      lg = "lazygit";
       gc = "git commit";
       ga = "git add";
       gsl = "git stash list --date=local";
-      z = "zathura";
       tk = "tmux kill-server";
     };
     initExtra = ''
