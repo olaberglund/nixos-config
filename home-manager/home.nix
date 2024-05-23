@@ -46,6 +46,7 @@
     markdownlint-cli
     fish
     nodePackages.prettier
+    nodePackages.typescript-language-server
     lua-language-server
 
     texliveSmall
