@@ -34,6 +34,12 @@
     zathura
     pamixer
     playerctl
+    gromit-mpx
+    bitwarden
+    spotify
+    nitrogen
+    feh
+    zoxide
     mpv
     libreoffice
     entr

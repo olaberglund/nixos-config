@@ -65,16 +65,10 @@
          cp ${configFile} config.h'';
     }))
     dmenu
-    zoxide
-    bitwarden
-    spotify
-    gromit-mpx
     flameshot
     neovim
     tmux
     wget
-    nitrogen
-    feh
     pkg-config
     pavucontrol
     eza
