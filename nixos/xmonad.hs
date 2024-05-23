@@ -97,7 +97,6 @@ keybindings =
     , ((0, xK_Menu), selectWindow def{cancelKey = xK_Escape} >>= (`whenJust` windows . focusWindow))
     , ((shiftMask, xK_Menu), selectWindow def >>= (`whenJust` killWindow))
     ]
-        <> [((0, key), namedScratchpadAction scratchpads ("terminal-" <> show q)) | (key, q) <- zip [xK_F1 ..] [Q1 ..]]
 
 -- ifEmpty :: X () -> X ()
 -- ifEmpty = whenX (withWindowSet (return . isNothing . peek))
@@ -119,13 +118,6 @@ scratchpads =
     [ NS "terminal" spawnTerm findTerm (scratchpadCentered 0.5 0.5)
     , NS spotify spotify (className =? "Spotify") (scratchpadCentered 0.8 0.8)
     ]
-        <> [ NS
-            ("terminal-" <> show q)
-            (myTerminal <> " -n " <> "scratchpad-" <> show q)
-            (resource =? ("scratchpad-" <> show q))
-            (scratchpadQ q)
-           | q <- [Q1 ..]
-           ]
   where
     spawnTerm = myTerminal <> " -n scratchpad"
     findTerm = resource =? "scratchpad"
@@ -138,14 +130,3 @@ scratchpadCentered height width = customFloating $ RationalRect l t width height
   where
     t = 0.5 - height / 2
     l = 0.5 - width / 2
-
-data Quadrant = Q1 | Q2 | Q3 | Q4
-    deriving (Enum, Show)
-
-scratchpadQ :: Quadrant -> ManageHook
-scratchpadQ =
-    customFloating . \case
-        Q1 -> RationalRect 0.5 0 0.5 0.5
-        Q2 -> RationalRect 0 0 0.5 0.5
-        Q3 -> RationalRect 0 0.5 0.5 0.5
-        Q4 -> RationalRect 0.5 0.5 0.5 0.5
