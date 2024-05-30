@@ -72,6 +72,7 @@ keybindings =
     , ((modm, xK_w), dwmpromote)
     , ((modm, xK_space), runOrRaiseMasterShift browser (className =? "firefox"))
     , ((modm .|. shiftMask, xK_space), spawn browser)
+    , ((modm .|. shiftMask, xK_p), spawn "bwm")
     , ((modm, xK_e), viewEmptyWorkspace)
     , ((modm .|. shiftMask, xK_s), sinkAll)
     , ((modm, 0xa7), namedScratchpadAction scratchpads "terminal")

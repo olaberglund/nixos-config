@@ -40,10 +40,15 @@
     nitrogen
     feh
     zoxide
+    dunst
     mpv
     libreoffice
     entr
     ranger
+    bitwarden-menu
+    xsel
+    xdotool
+    bitwarden-cli
 
     nixfmt
     shfmt
@@ -76,8 +81,7 @@
     Unit = { Description = "Rinder (track expenses)"; };
     Service = {
       WorkingDirectory = "/home/ola/Code/rinder";
-      ExecStart =
-        "${pkgs.cabal-install}/bin/cabal --ghc --with-compiler=${pkgs.ghc}/bin/ghc run rinder -- 1337";
+      ExecStart = "/home/ola/.local/bin/rinder 1337";
     };
   };
 
@@ -114,6 +118,10 @@
       source = ./nvim;
       recursive = true;
     };
+
+    ".config/dunst/dunstrc" = { source = ./dunstrc; };
+
+    ".config/bwm/config.ini" = { source = ./bwmrc; };
 
     ".background-image" = { source = ./wallpaper.png; };
 
