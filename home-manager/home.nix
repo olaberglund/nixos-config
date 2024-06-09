@@ -85,11 +85,12 @@
     };
   };
 
-  systemd.user.services.gromitSession = {
-    Install = { WantedBy = [ "default.target" ]; };
-    Unit = { Description = "Gromit (draw on screen)"; };
-    Service = { ExecStart = "${pkgs.gromit-mpx}/bin/gromit-mpx"; };
-  };
+  # faulty
+  # systemd.user.services.gromitSession = {
+  #   Install = { WantedBy = [ "default.target" ]; };
+  #   Unit = { Description = "Gromit (draw on screen)"; };
+  #   Service = { ExecStart = "${pkgs.gromit-mpx}/bin/gromit-mpx"; };
+  # };
 
   systemd.user.services.rinderTransactionsSession = {
     Install = { WantedBy = [ "default.target" ]; };

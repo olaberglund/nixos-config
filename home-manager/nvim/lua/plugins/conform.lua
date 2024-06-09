@@ -4,6 +4,7 @@ return {
     formatters_by_ft = {
       haskell = { "fourmolu", "my_stylish" },
       nix = { "my_nixfmt" },
+      cabal = { "my_cabal_fmt" },
     },
 
     formatters = {
@@ -12,6 +13,9 @@ return {
       },
       my_nixfmt = {
         command = "nixfmt",
+      },
+      my_cabal_fmt = {
+        command = "cabal-fmt",
       },
     },
   },
