@@ -67,6 +67,11 @@ in {
               "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
             installation_mode = "force_installed";
           };
+          "moz-addon-prod@7tv.app" = {
+            install_url = "https://extension.7tv.gg/v3.0.9/ext.xpi";
+            installation_mode = "force_installed";
+          };
+
         };
 
         # ---- PREFERENCES ----

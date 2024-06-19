@@ -85,7 +85,7 @@ keybindings =
     , ((noModMask, 0x1008FF14), spawn "playerctl play-pause") -- increase music volume
     , ((noModMask, 0x1008FF16), spawn "playerctl previous") -- increase music volume
     , ((noModMask, 0x1008FF17), spawn "playerctl next") -- increase music volume
-    , ((altMask, xK_space), spawn toggleKbLangCmd)
+    , ((altMask, xK_Shift_L), spawn toggleKbLangCmd)
     , ((modm, xK_Tab), toggleWS' [scratchpadWorkspaceTag])
     , ((modm, xK_o), nextScreen)
     , ((altMask, xK_a), swapNextScreen)

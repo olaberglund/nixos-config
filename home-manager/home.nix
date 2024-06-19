@@ -62,11 +62,11 @@
 
     texliveSmall
 
-    ghcid
-    haskellPackages.stack
-    haskellPackages.ghc
-    haskellPackages.cabal-install
-    haskellPackages.haskell-language-server
+    # ghcid
+    # haskellPackages.stack
+    # haskellPackages.ghc
+    # haskellPackages.cabal-install
+    # haskellPackages.haskell-language-server
     haskellPackages.stylish-haskell
     haskellPackages.cabal-fmt
     haskellPackages.fourmolu
@@ -85,16 +85,9 @@
     };
   };
 
-  # faulty
-  # systemd.user.services.gromitSession = {
-  #   Install = { WantedBy = [ "default.target" ]; };
-  #   Unit = { Description = "Gromit (draw on screen)"; };
-  #   Service = { ExecStart = "${pkgs.gromit-mpx}/bin/gromit-mpx"; };
-  # };
-
   systemd.user.services.rinderTransactionsSession = {
     Install = { WantedBy = [ "default.target" ]; };
-    Unit = { Description = "Backup Rinder transactions"; };
+    Unit = { Description = "Rinder (GDrive backup)"; };
     Service = {
       ExecStart = "${pkgs.writeShellScript "watch-transactions" ''
         #!${pkgs.bash}/bin/bash
@@ -129,16 +122,18 @@
     ".tmux.conf" = { source = ./tmux.conf; };
 
     ".config/zathura/zathurarc" = { source = ./zathurarc; };
-  } // builtins.listToAttrs (builtins.map (x: {
-    name = ".local/bin/" + x;
+  } // builtins.listToAttrs (builtins.map (fileName: {
+    name = ".local/bin/" + fileName;
     value = {
-      source = ./. + "/scripts/${x}";
+      source = ./. + "/scripts/${fileName}";
       executable = true;
     };
   }) (builtins.attrNames (builtins.readDir ./scripts)));
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
+
+  programs.direnv.enable = true;
 
   programs.git = {
     enable = true;
@@ -190,6 +185,7 @@
       ga = "git add";
       gsl = "git stash list --date=local";
       tk = "tmux kill-server";
+      gt = "cd $_";
     };
     initExtra = ''
       KEYTIMEOUT=1;

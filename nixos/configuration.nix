@@ -118,7 +118,7 @@
 
   nix.gc = {
     automatic = true;
-    dates = "daily";
+    dates = "weekly";
   };
 
   # Use the systemd-boot EFI boot loader.
