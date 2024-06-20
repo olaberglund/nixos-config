@@ -81,25 +81,7 @@
     fzf
   ];
 
-  fonts = {
-    packages = with pkgs;
-      [
-        (iosevka.override {
-          set = "custom";
-          privateBuildPlan = ''
-            [buildPlans.iosevka-custom]
-            family = "Iosevka Custom"
-            spacing = "normal"
-            serifs = "sans"
-            noCvSs = true
-            exportGlyphNames = false
-
-            [buildPlans.iosevka-custom.ligations]
-            inherits = "haskell"
-          '';
-        })
-      ];
-  };
+  fonts = { packages = with pkgs; [ iosevka ]; };
 
   programs = {
     zsh = {
@@ -167,35 +149,6 @@
 
   services.xserver.xkbOptions = "caps:ctrl_modifier";
 
-  services.xserver.displayManager.setupCommands = ''
-    LEFT='DP-0'
-    RIGHT='DP-4'
-    ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT  --mode 2560x1440 --rate 155 --output $RIGHT --primary  --mode 2560x1440 --pos 2560x0 --right-of $LEFT --rate 155
-    ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
-  '';
-
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
-  services.xserver.videoDrivers = [ "nvidia" ];
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-
-    powerManagement.enable = false;
-
-    powerManagement.finegrained = false;
-
-    open = false;
-
-    nvidiaSettings = true;
-
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
-
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
@@ -262,12 +215,11 @@
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
-    ports = [ 22 58549 ];
+    ports = [ 22 ];
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-  #
+  services.xserver.libinput.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
 
