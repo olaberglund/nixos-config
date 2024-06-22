@@ -81,6 +81,8 @@
     fzf
   ];
 
+  hardware.acpilight.enable = true;
+
   fonts = { packages = with pkgs; [ iosevka ]; };
 
   programs = {
@@ -204,12 +206,13 @@
   users.users.ola = {
     isNormalUser = true;
     description = "ola";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "video" ];
     packages = with pkgs; [ firefox ];
     # openssh.authorizedKeys.keys = [
     #   # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
     # ];
   };
+
   virtualisation.docker.enable = true;
 
   services.openssh = {
