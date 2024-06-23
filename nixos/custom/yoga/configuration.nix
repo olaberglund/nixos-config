@@ -24,6 +24,8 @@
       ];
   };
 
+  networking.hostName = "yoga";
+
   services.xserver.displayManager.setupCommands = ''
     LEFT='DP-0'
     RIGHT='DP-4'

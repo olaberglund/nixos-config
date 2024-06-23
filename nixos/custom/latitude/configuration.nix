@@ -11,6 +11,8 @@
   hardware.acpilight.enable = true;
   users.users.ola.extraGroups = [ "networkmanager" "wheel" "docker" "video" ];
 
+  networking.hostName = "latitude";
+
   environment.systemPackages = with pkgs;
     [
       (st.overrideAttrs (oldAttrs: rec {
