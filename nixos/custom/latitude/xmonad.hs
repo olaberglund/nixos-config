@@ -34,7 +34,7 @@ import           XMonad.Util.NamedScratchpad       (NamedScratchpad (..),
                                                     namedScratchpadManageHook,
                                                     scratchpadWorkspaceTag)
 
-mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/xmobarrc" myXmobarPP) hideSB
+mySB = withEasySB (statusBarProp "xmobar ~/nixos-config/nixos/custom/latitude/xmobarrc" myXmobarPP) hideSB
   where
     hideSB = const (modm, xK_b)
     myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP xmobarPP
@@ -85,6 +85,8 @@ keybindings =
     , ((noModMask, 0x1008FF14), spawn "playerctl play-pause") -- increase music volume
     , ((noModMask, 0x1008FF16), spawn "playerctl previous") -- increase music volume
     , ((noModMask, 0x1008FF17), spawn "playerctl next") -- increase music volume
+    , ((noModMask, 0x1008FF02), spawn "xbacklight -inc 5")
+    , ((noModMask, 0x1008FF03), spawn "xbacklight -dec 5")
     , ((altMask, xK_Shift_L), spawn toggleKbLangCmd)
     , ((modm, xK_Tab), toggleWS' [scratchpadWorkspaceTag])
     , ((modm, xK_o), nextScreen)
@@ -116,7 +118,7 @@ toggleKbLangCmd = "(setxkbmap -query | grep -q \"layout:\\s\\+us\") && setxkbmap
 
 scratchpads :: [NamedScratchpad]
 scratchpads =
-    [ NS "terminal" spawnTerm findTerm (scratchpadCentered 0.5 0.5)
+    [ NS "terminal" spawnTerm findTerm (scratchpadCentered 0.7 0.7)
     , NS spotify spotify (className =? "Spotify") (scratchpadCentered 0.8 0.8)
     ]
   where
