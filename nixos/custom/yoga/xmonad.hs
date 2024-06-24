@@ -34,7 +34,7 @@ import           XMonad.Util.NamedScratchpad       (NamedScratchpad (..),
                                                     namedScratchpadManageHook,
                                                     scratchpadWorkspaceTag)
 
-mySB = withEasySB (statusBarProp "xmobar ~/nixos-config/nixos/custom/yoga/xmobarrc" myXmobarPP) hideSB
+mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/yoga/xmobarrc" myXmobarPP) hideSB
   where
     hideSB = const (modm, xK_b)
     myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP xmobarPP
