@@ -10,14 +10,14 @@
         (iosevka.override {
           set = "custom";
           privateBuildPlan = ''
-            [buildPlans.iosevka-custom]
+            [buildPlans.Iosevkacustom]
             family = "Iosevka Custom"
-            spacing = "normal"
+            spacing = "extended"
             serifs = "sans"
             noCvSs = true
             exportGlyphNames = false
 
-            [buildPlans.iosevka-custom.ligations]
+            [buildPlans.Iosevkacustom.ligations]
             inherits = "haskell"
           '';
         })

@@ -20,7 +20,7 @@
     ripgrep
     gdrive3
     xmobar
-    nodejs_21
+    nodejs_22
     npm-check
     conda
     arandr
@@ -50,7 +50,7 @@
     xdotool
     bitwarden-cli
 
-    nixfmt
+    nixfmt-classic
     shfmt
     stylua
     marksman

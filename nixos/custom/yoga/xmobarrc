@@ -1,7 +1,7 @@
 Config { 
 
    -- appearance
-     font =         "Iosevka Custom:pixelsize=18:antialias=true:autohint=true"
+     font =         "Iosevka Custom Extended 12"
    , bgColor =      "black"
    , fgColor =      "#646464"
    , position =     Top

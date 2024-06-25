@@ -128,14 +128,15 @@
     enableContribAndExtras = true;
   };
 
-  services.xserver.xkbOptions = "caps:ctrl_modifier";
-
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
     autoRepeatInterval = 10;
     autoRepeatDelay = 150;
+    xkb = {
+      layout = "us";
+      variant = "";
+      options = "caps:ctrl_modifier";
+    };
 
     # Enable the X11 windowing system.
     enable = true;
@@ -206,8 +207,8 @@
   users.defaultUserShell = pkgs.zsh;
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "ola";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "ola";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
