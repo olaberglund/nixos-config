@@ -11,6 +11,11 @@
   hardware.acpilight.enable = true;
   users.users.ola.extraGroups = [ "networkmanager" "wheel" "docker" "video" ];
 
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot =
+    true; # powers up the default Bluetooth controller on boot
+
   networking.hostName = "latitude";
 
   environment.systemPackages = with pkgs;
