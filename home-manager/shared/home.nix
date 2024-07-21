@@ -37,6 +37,8 @@
     gromit-mpx
     bitwarden
     spotify
+    spotify-player
+    btop
     nitrogen
     feh
     zoxide
