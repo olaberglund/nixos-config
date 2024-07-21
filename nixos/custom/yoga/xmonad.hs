@@ -35,10 +35,11 @@ import           XMonad.Util.NamedScratchpad       (NamedScratchpad (..),
                                                     namedScratchpadManageHook,
                                                     scratchpadWorkspaceTag)
 
-mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/yoga/xmobarrc" myXmobarPP) hideSB
+mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/yoga/xmobarrc" myXmobar) hideSB
   where
     hideSB = const (modm, xK_b)
-    myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP xmobarPP{ppLayout = const ""}
+    myXmobar = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP myXmobarPP
+    myXmobarPP = xmobarPP{ppLayout = const "", ppTitle = \s -> if s == "" then "Nothing" else "Just (" <> s <> ")"}
 
 main :: IO ()
 main =

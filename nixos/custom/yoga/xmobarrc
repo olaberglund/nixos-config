@@ -2,11 +2,11 @@ Config {
 
    -- appearance
      font =         "Iosevka Custom Extended 12"
-   , bgColor =      "black"
-   , fgColor =      "black"
+   , bgColor =      "#282828"
+   , fgColor =      "#ebdbb2"
    , position =     TopSize C 100 22
    , additionalFonts = ["Hack Nerd Font 16"]
-   , alpha = 0 
+   , alpha = 190
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
