@@ -15,6 +15,7 @@
   };
 
   home.packages = with pkgs; [
+    (callPackage ../../pkgs/sunpaper { })
     zip
     unzip
     ripgrep

@@ -5,12 +5,13 @@ Config {
    , bgColor =      "black"
    , fgColor =      "black"
    , position =     TopSize C 100 22
+   , additionalFonts = ["Hack Nerd Font 16"]
    , alpha = 0 
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = " %UnsafeXMonadLog% | %multicpu% | %memory% }{ %volume% | %date% || %kbd% "
+   , template = " %UnsafeXMonadLog% } %time% { %volume% | %multicpu% | %memory% | %date% | %kbd% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -73,30 +74,14 @@ Config {
                              ] 10
         , Run Com "/home/ola/.local/bin/get-volume.sh" [] "volume" 2
 
-        -- battery monitor
-        , Run Battery        [ "--template" , "Batt: <acstatus>"
-                             , "--Low"      , "10"        -- units: %
-                             , "--High"     , "80"        -- units: %
-                             , "--low"      , "darkred"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkgreen"
-
-                             , "--" -- battery specific options
-                                       -- discharging status
-                                       , "-o"	, "<left>% (<timeleft>)"
-                                       -- AC "on" status
-                                       , "-O"	, "<fc=#dAA520>Charging</fc>"
-                                       -- charged status
-                                       , "-i"	, "<fc=#006000>Charged</fc>"
-                             ] 50
-
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "%F (%a) %T" "date" 10
+        , Run Date           "%F (%a)" "date" 10
+        , Run Date           "%T" "time" 10
 
         -- keyboard layout indicator
-        , Run Kbd            [ ("se" , "<fc=#FFD300>SE</fc>")
-                             , ("us"         , "<fc=#8B0000>US</fc>")
+        , Run Kbd            [ ("se", "<fn=1>\xf0313</fn> 🇸🇪")
+                             , ("us"         , "<fn=1>\xf0313</fn> 🇺🇸")
                              ]
         , Run UnsafeXMonadLog
         ]

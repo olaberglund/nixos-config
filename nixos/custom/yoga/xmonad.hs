@@ -21,7 +21,8 @@ import           XMonad.Hooks.DynamicLog           (xmobarProp)
 import           XMonad.Hooks.EwmhDesktops         (ewmh, ewmhFullscreen)
 import           XMonad.Hooks.ManageDocks          (docks)
 import           XMonad.Hooks.StatusBar            (statusBarProp, withEasySB)
-import           XMonad.Hooks.StatusBar.PP         (filterOutWsPP, xmobarPP)
+import           XMonad.Hooks.StatusBar.PP         (PP (..), filterOutWsPP,
+                                                    xmobarPP)
 import           XMonad.StackSet                   (RationalRect (..),
                                                     focusWindow, greedyView,
                                                     integrate', peek, shift,
@@ -37,7 +38,7 @@ import           XMonad.Util.NamedScratchpad       (NamedScratchpad (..),
 mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/yoga/xmobarrc" myXmobarPP) hideSB
   where
     hideSB = const (modm, xK_b)
-    myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP xmobarPP
+    myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP xmobarPP{ppLayout = const ""}
 
 main :: IO ()
 main =
@@ -72,7 +73,7 @@ keybindings =
     , ((modm, xK_w), dwmpromote)
     , ((modm, xK_space), runOrRaiseMasterShift browser (className =? "firefox"))
     , ((modm .|. shiftMask, xK_space), spawn browser)
-    , ((modm .|. shiftMask, xK_p), spawn "bwm")
+    , ((altMask, xK_p), spawn "hwarden")
     , ((modm, xK_e), viewEmptyWorkspace)
     , ((modm .|. shiftMask, xK_s), sinkAll)
     , ((modm, 0xa7), namedScratchpadAction scratchpads "terminal")
