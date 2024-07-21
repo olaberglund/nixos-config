@@ -21,6 +21,8 @@
             inherits = "haskell"
           '';
         })
+
+        # (callPackage ../../../pkgs/sunpaper { })
       ];
   };
 
@@ -32,6 +34,8 @@
     ${pkgs.xorg.xrandr}/bin/xrandr --output $LEFT  --mode 2560x1440 --rate 155 --output $RIGHT --primary  --mode 2560x1440 --pos 2560x0 --right-of $LEFT --rate 155
     ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
   '';
+
+  #    ${pkgs.callPackage ../../../pkgs/sunpaper { }}/bin/my-sunpaper -d
 
   hardware.opengl = {
     enable = true;

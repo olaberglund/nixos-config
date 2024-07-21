@@ -49,6 +49,7 @@
     xsel
     xdotool
     bitwarden-cli
+    btop
 
     nixfmt-classic
     shfmt
@@ -107,9 +108,32 @@
     };
   };
 
+  systemd.user.services.sunpaperSession = {
+    Install = { WantedBy = [ "graphical-session.target" ]; };
+
+    Unit = {
+      Description = "Sunpaper (automatic wallpapers)";
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart =
+        "${pkgs.callPackage ../../pkgs/sunpaper { }}/bin/my-sunpaper -d";
+    };
+  };
+
   home.file = {
     ".config/nvim" = {
       source = ./nvim;
+      recursive = true;
+    };
+
+    ".local/bin/" = {
+      source = ./scripts;
+      recursive = true;
+    };
+
+    ".background-images/" = {
+      source = ../../pkgs/sunpaper/images;
       recursive = true;
     };
 
@@ -117,18 +141,13 @@
 
     ".config/bwm/config.ini" = { source = ./bwmrc; };
 
-    ".background-image" = { source = ./wallpaper.png; };
+    # ".background-image" = { source = ./wallpaper.png; };
 
     ".tmux.conf" = { source = ./tmux.conf; };
 
     ".config/zathura/zathurarc" = { source = ./zathurarc; };
-  } // builtins.listToAttrs (builtins.map (fileName: {
-    name = ".local/bin/" + fileName;
-    value = {
-      source = ./. + "/scripts/${fileName}";
-      executable = true;
-    };
-  }) (builtins.attrNames (builtins.readDir ./scripts)));
+
+  };
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
