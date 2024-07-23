@@ -163,7 +163,15 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  services.picom.enable = true;
+  services.picom = {
+    enable = true;
+    settings = {
+      corner-radius = 10;
+      rounded-corners-exclude = [ "name = 'xmobar'" ];
+    };
+    backend = "glx";
+
+  };
 
   # Enable sound with pipewire.
   sound.enable = true;

@@ -16,6 +16,7 @@
 
   home.packages = with pkgs; [
     (callPackage ../../pkgs/sunpaper { })
+    (callPackage ../../pkgs/rofi/scripts/launcher_t1.nix { })
     zip
     unzip
     ripgrep
@@ -52,6 +53,7 @@
     xsel
     xdotool
     bitwarden-cli
+    rofi
     btop
 
     nixfmt-classic
@@ -137,6 +139,11 @@
 
     ".background-images/" = {
       source = ../../pkgs/sunpaper/images;
+      recursive = true;
+    };
+
+    ".config/rofi/" = {
+      source = ../../pkgs/rofi;
       recursive = true;
     };
 

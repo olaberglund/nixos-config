@@ -4,9 +4,9 @@ Config {
      font =         "Iosevka Custom Extended 12"
    , bgColor =      "#282828"
    , fgColor =      "#ebdbb2"
-   , position =     TopSize C 100 22
+   , position =     TopSize C 100 30
    , additionalFonts = ["Hack Nerd Font 16"]
-   , alpha = 190
+   , alpha = 230
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
@@ -50,9 +50,9 @@ Config {
         , Run MultiCpu       [ "--template" , "Cpu: <total0>%"
                              , "--Low"      , "50"         -- units: %
                              , "--High"     , "85"         -- units: %
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
+                             , "--low"      , "lightgreen"
+                             , "--normal"   , "lightorange"
+                             , "--high"     , "lightred"
                              ] 10
 
         -- cpu core temperature monitor
@@ -68,9 +68,9 @@ Config {
         , Run Memory         [ "--template" ,"Mem: <usedratio>%"
                              , "--Low"      , "20"        -- units: %
                              , "--High"     , "90"        -- units: %
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
+                             , "--low"      , "lightgreen"
+                             , "--normal"   , "lightorange"
+                             , "--high"     , "lightred"
                              ] 10
         , Run Com "/home/ola/.local/bin/get-volume.sh" [] "volume" 2
 
