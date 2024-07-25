@@ -35,8 +35,6 @@
     ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
   '';
 
-  #    ${pkgs.callPackage ../../../pkgs/sunpaper { }}/bin/my-sunpaper -d
-
   hardware.opengl = {
     enable = true;
     driSupport = true;

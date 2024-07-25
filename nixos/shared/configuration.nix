@@ -166,7 +166,7 @@
   services.picom = {
     enable = true;
     settings = {
-      corner-radius = 10;
+      corner-radius = 12;
       rounded-corners-exclude = [ "name = 'xmobar'" ];
     };
     backend = "glx";

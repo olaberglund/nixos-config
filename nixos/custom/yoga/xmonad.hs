@@ -24,6 +24,9 @@ import           XMonad.Hooks.ManageDocks          (docks)
 import           XMonad.Hooks.StatusBar            (statusBarProp, withEasySB)
 import           XMonad.Hooks.StatusBar.PP         (PP (..), filterOutWsPP,
                                                     xmobarPP)
+import           XMonad.Layout.NoBorders           (Ambiguity (..), lessBorders,
+                                                    noBorders)
+import           XMonad.Layout.Spacing             (smartSpacingWithEdge)
 import           XMonad.StackSet                   (RationalRect (..),
                                                     focusWindow, greedyView,
                                                     integrate', peek, screen,
@@ -42,7 +45,6 @@ import           System.Directory                  (doesFileExist)
 import           System.FilePath                   (FilePath, (</>))
 import           System.Posix.Files                (touchFile)
 import           Text.Read                         (readMaybe)
-import           XMonad.Layout.Spacing             (smartSpacingWithEdge)
 
 mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/yoga/xmobarrc" myXmobar) hideSB
   where
@@ -70,13 +72,18 @@ myConfig =
         { terminal = myTerminal
         , modMask = modm
         , focusedBorderColor = lightGray
-        , borderWidth = 4
+        , borderWidth = 0
         , normalBorderColor = black
         , manageHook = myManageHook <+> manageHook def
         , layoutHook = smartSpacingWithEdge 5 $ layoutHook def
+        , startupHook = myStartupHook
         , logHook = myLogHook
         }
         `additionalKeys` keybindings
+
+myStartupHook :: X ()
+myStartupHook = do
+    spawn "sunpaper -d"
 
 keybindings :: [((KeyMask, KeySym), X ())]
 keybindings =

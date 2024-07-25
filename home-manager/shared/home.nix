@@ -1,6 +1,12 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{ inputs, lib, config, pkgs, ... }: {
+{ inputs, lib, config, pkgs, ... }:
+
+let
+  sunpaper = pkgs.sunpaper.overrideAttrs
+    # Needed for moonphases
+    (oldAttrs: { buildInputs = oldAttrs.buildInputs ++ [ pkgs.bc ]; });
+in {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -15,7 +21,7 @@
   };
 
   home.packages = with pkgs; [
-    (callPackage ../../pkgs/sunpaper { })
+    sunpaper
     (callPackage ../../pkgs/rofi/scripts/launcher_t1.nix { })
     zip
     unzip
@@ -113,17 +119,14 @@
     };
   };
 
-  systemd.user.services.sunpaperSession = {
+  systemd.user.services.gromitSession = {
     Install = { WantedBy = [ "graphical-session.target" ]; };
 
     Unit = {
-      Description = "Sunpaper (automatic wallpapers)";
+      Description = "Gromit (draw on screen)";
       After = [ "graphical-session.target" ];
     };
-    Service = {
-      ExecStart =
-        "${pkgs.callPackage ../../pkgs/sunpaper { }}/bin/my-sunpaper -d";
-    };
+    Service = { ExecStart = "${pkgs.gromit-mpx}/bin/gromit-mpx"; };
   };
 
   home.file = {
@@ -150,6 +153,8 @@
     ".config/dunst/dunstrc" = { source = ./dunstrc; };
 
     ".config/bwm/config.ini" = { source = ./bwmrc; };
+
+    ".config/sunpaper/config" = { source = ./sunpaper; };
 
     # ".background-image" = { source = ./wallpaper.png; };
 
