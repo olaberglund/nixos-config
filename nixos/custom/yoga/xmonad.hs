@@ -145,7 +145,11 @@ scratchpads =
     findTerm = resource =? "scratchpad"
 
 myManageHook :: ManageHook
-myManageHook = composeAll [namedScratchpadManageHook scratchpads]
+myManageHook =
+    composeAll
+        [ className =? "Pavucontrol" --> doFloat
+        , namedScratchpadManageHook scratchpads
+        ]
 
 scratchpadCentered :: Rational -> Rational -> ManageHook
 scratchpadCentered height width = customFloating $ RationalRect l t width height

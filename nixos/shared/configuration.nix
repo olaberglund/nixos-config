@@ -1,6 +1,6 @@
 { inputs, lib, config, pkgs, ... }: {
   # You can import other NixOS modules here
-  imports = [ ./vim.nix ./firefox.nix ];
+  imports = [ ./firefox.nix ];
 
   # wallpaper: set "~/.background-image"
 

@@ -61,8 +61,20 @@ myConfig =
         , focusedBorderColor = lightGray
         , normalBorderColor = black
         , manageHook = myManageHook <+> manageHook def
+        , startupHook = myStartupHook
         }
         `additionalKeys` keybindings
+
+myManageHook :: ManageHook
+myManageHook =
+    composeAll
+        [ className =? "Pavucontrol" --> doFloat
+        , namedScratchpadManageHook scratchpads
+        ]
+
+myStartupHook :: X ()
+myStartupHook = do
+    spawn "sunpaper -d"
 
 keybindings :: [((KeyMask, KeySym), X ())]
 keybindings =
@@ -124,9 +136,6 @@ scratchpads =
   where
     spawnTerm = myTerminal <> " -n scratchpad"
     findTerm = resource =? "scratchpad"
-
-myManageHook :: ManageHook
-myManageHook = composeAll [namedScratchpadManageHook scratchpads]
 
 scratchpadCentered :: Rational -> Rational -> ManageHook
 scratchpadCentered height width = customFloating $ RationalRect l t width height

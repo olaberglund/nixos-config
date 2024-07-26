@@ -2,16 +2,16 @@ Config {
 
    -- appearance
      font =         "Iosevka:pixelsize=18:antialias=true:autohint=true"
-   , bgColor =      "black"
-   , fgColor =      "#646464"
-   , position =     Top
-   , border =       BottomB
-   , borderColor =  "#646464"
+   , bgColor =      "#282828"
+   , fgColor =      "#ebdbb2"
+   , position =     TopSize C 100 30
+   , additionalFonts = ["Hack Nerd Font 16"]
+   , alpha = 230
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = " %UnsafeXMonadLog% | %multicpu% | %memory% }{ %battery% %volume% | %date% || %kbd% "
+   , template = " %UnsafeXMonadLog% } %time% { %volume% | %multicpu% | %memory% | %date% | %kbd% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start

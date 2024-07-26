@@ -13,6 +13,7 @@ in {
     # inputs.nix-colors.homeManagerModule
 
     # You can also split up your configuration and import pieces of it here:
+    ./vim.nix
   ];
 
   home = {
@@ -71,6 +72,7 @@ in {
     nodePackages.prettier
     nodePackages.typescript-language-server
     lua-language-server
+    markdownlint-cli2
 
     texliveSmall
 
@@ -86,6 +88,7 @@ in {
     purs
     spago-unstable
     purs-tidy-bin.purs-tidy-0_10_0
+
   ];
 
   systemd.user.services.rinderSession = {
@@ -137,11 +140,6 @@ in {
 
     ".local/bin/" = {
       source = ./scripts;
-      recursive = true;
-    };
-
-    ".background-images/" = {
-      source = ../../pkgs/sunpaper/images;
       recursive = true;
     };
 

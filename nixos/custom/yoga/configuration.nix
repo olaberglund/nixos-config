@@ -21,8 +21,6 @@
             inherits = "haskell"
           '';
         })
-
-        # (callPackage ../../../pkgs/sunpaper { })
       ];
   };
 
