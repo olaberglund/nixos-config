@@ -18,6 +18,8 @@
 
   networking.hostName = "latitude";
 
+  services.picom = { enable = true; };
+
   environment.systemPackages = with pkgs;
     [
       (st.overrideAttrs (oldAttrs: rec {

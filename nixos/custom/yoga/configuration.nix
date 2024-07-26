@@ -24,6 +24,15 @@
       ];
   };
 
+  services.picom = {
+    enable = true;
+    settings = {
+      corner-radius = 12;
+      rounded-corners-exclude = [ "name = 'xmobar'" ];
+    };
+    backend = "glx";
+  };
+
   networking.hostName = "yoga";
 
   services.xserver.displayManager.setupCommands = ''

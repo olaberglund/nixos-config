@@ -94,6 +94,7 @@ Config {
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
         , Run Date           "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
+        , Run Date           "%T" "time" 10
 
         -- keyboard layout indicator
         , Run Kbd            [ ("se" , "<fc=#FFD300>SE</fc>")
