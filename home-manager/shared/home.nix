@@ -23,7 +23,7 @@ in {
 
   home.packages = with pkgs; [
     sunpaper
-    (callPackage ../../pkgs/rofi/scripts/launcher_t1.nix { })
+    (callPackage ../../pkgs/rofi/package.nix { })
     zip
     unzip
     ripgrep
@@ -60,7 +60,6 @@ in {
     xsel
     xdotool
     bitwarden-cli
-    rofi
     btop
 
     nixfmt-classic
@@ -140,11 +139,6 @@ in {
 
     ".local/bin/" = {
       source = ./scripts;
-      recursive = true;
-    };
-
-    ".config/rofi/" = {
-      source = ../../pkgs/rofi;
       recursive = true;
     };
 

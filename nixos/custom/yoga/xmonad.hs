@@ -41,6 +41,7 @@ import           XMonad.Util.NamedScratchpad       (NamedScratchpad (..),
                                                     scratchpadWorkspaceTag)
 
 import           Data.List                         (intercalate)
+import           Data.Time
 import           System.Directory                  (doesFileExist)
 import           System.FilePath                   (FilePath, (</>))
 import           System.Posix.Files                (touchFile)
@@ -114,7 +115,7 @@ keybindings =
     ,
         ( (altMask, xK_r)
         , submap . Map.fromList $
-            [((0, key), spawnRedshift level) | (key, level) <- zip [xK_1 .. xK_5] [1 ..]]
+            [((0, key), adjustLight level) | (key, level) <- zip [xK_1 .. xK_5] [1 ..]]
         )
     , ((modm .|. shiftMask, xK_o), screenBy 1 >>= screenWorkspace >>= flip whenJust (windows . shift))
     , ((0, xK_Menu), selectWindow def{cancelKey = xK_Escape} >>= (`whenJust` windows . focusWindow))
@@ -167,25 +168,37 @@ withRsCache action = do
 myLogHook :: X ()
 myLogHook = do
     rsLevel <- readMaybe <$> withRsCache readFile
-    forM_ rsLevel spawnRedshift
+    forM_ rsLevel adjustLight
 
-spawnRedshift :: Int -> X ()
-spawnRedshift level = do
+adjustLight :: Int -> X ()
+adjustLight level = do
     withRsCache (`writeFile` (show level))
+    t <- io $ localTimeOfDay .: utcToLocalTime <$> getCurrentTimeZone <*> getCurrentTime
+    let time = (todHour t, todMin t)
     withWindowSet
         ( mapM_
             ( \s ->
                 let nbrWindows = length . integrate' . stack . workspace $ s
                  in if nbrWindows == 0
-                        then spawn (redshiftCmd (darken (screen s)) level)
+                        then spawn (redshiftCmd (darken (screen s) time) level)
                         else spawn (redshiftCmd (lighten (screen s)) level)
             )
             . screens
         )
   where
-    darken (S 1) = ["-m", "randr:crtc=1", "-b", "0.3"]
-    darken (S 0) = ["-m", "randr:crtc=0", "-b", "0.3"]
-    darken _     = []
+    darken (S 1) t = ["-m", "randr:crtc=1", "-b", darkShade t]
+    darken (S 0) t = ["-m", "randr:crtc=0", "-b", darkShade t]
+    darken _ _     = []
+
+    darkShade (h, m) =
+        show $
+            if h > startHour
+                then 1 - (0.7 * min 1 (fromIntegral diff / fromIntegral duration))
+                else 1
+      where
+        startHour = 15
+        duration = 6 * 60
+        diff = (h * 60 + m) - (startHour * 60)
 
     lighten (S 1) = ["-m", "randr:crtc=1", "-b", "1"]
     lighten (S 0) = ["-m", "randr:crtc=0", "-b", "1"]
@@ -198,3 +211,6 @@ redshiftCmd params level =
         <> " -PO "
         <> show (1000 * (6 - level))
         <> " /dev/null 2>&1"
+
+(.:) :: (c -> d) -> (a -> b -> c) -> a -> b -> d
+(.:) = (.) . (.)
