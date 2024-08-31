@@ -9,10 +9,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    purescript-overlay = {
-      url = "github:thomashoneyman/purescript-overlay";
+    rinder = {
+      url = "github:olaberglund/rinder";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
@@ -24,15 +26,13 @@
         modules = [
           ./nixos/shared/configuration.nix
           ./nixos/custom/latitude/configuration.nix
+
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.ola = import ./home-manager/shared/home.nix;
           }
-          ({
-            nixpkgs.overlays = [ inputs.purescript-overlay.overlays.default ];
-          })
         ];
       };
 
@@ -47,10 +47,8 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.ola = import ./home-manager/shared/home.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
           }
-          ({
-            nixpkgs.overlays = [ inputs.purescript-overlay.overlays.default ];
-          })
         ];
       };
     };

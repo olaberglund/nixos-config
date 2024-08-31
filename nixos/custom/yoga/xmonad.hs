@@ -51,7 +51,11 @@ mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/yoga/xmobarrc" 
   where
     hideSB = const (modm, xK_b)
     myXmobar = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP myXmobarPP
-    myXmobarPP = xmobarPP{ppLayout = const "", ppTitle = \s -> if s == "" then "Nothing" else "Just (" <> s <> ")"}
+    myXmobarPP = xmobarPP{ppLayout = const "", ppTitle = \s -> if s == "" then "Nothing" else "Just (" <> trim s <> ")"}
+
+    trim s
+        | length s > 40 = take 40 s <> "..."
+        | otherwise = s
 
 main :: IO ()
 main =
@@ -198,7 +202,7 @@ adjustLight level = do
       where
         startHour = 15
         duration = 6 * 60
-        diff = (h * 60 + m) - (startHour * 60)
+        diff = abs (startHour * 60 - (h * 60 + m))
 
     lighten (S 1) = ["-m", "randr:crtc=1", "-b", "1"]
     lighten (S 0) = ["-m", "randr:crtc=0", "-b", "1"]

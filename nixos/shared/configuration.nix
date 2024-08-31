@@ -51,7 +51,6 @@
     git
     dmenu
     flameshot
-    neovim
     tmux
     wget
     pkg-config
@@ -142,23 +141,23 @@
     enable = true;
   };
 
-  services.postgresql = {
-    enable = true;
-    ensureDatabases = [ "mydatabase" ];
-    enableTCPIP = true;
-    # port = 5432;
-    authentication = pkgs.lib.mkOverride 10 ''
-      #type database DBuser origin-address auth-method
-      local all      all                   trust
-      # ipv6
-      host  all      all      ::1/128      trust
-      # ipv4
-      host  all      postgres 127.0.0.1/32 trust
-    '';
-    initialScript = pkgs.writeText "init-sql-script" ''
-      ALTER USER postgres WITH PASSWORD 'mypassword';
-    '';
-  };
+  #services.postgresql = {
+  #  enable = true;
+  #  ensureDatabases = [ "mydatabase" ];
+  #  enableTCPIP = true;
+  #  # port = 5432;
+  #  authentication = pkgs.lib.mkOverride 10 ''
+  #    #type database DBuser origin-address auth-method
+  #    local all      all                   trust
+  #    # ipv6
+  #    host  all      all      ::1/128      trust
+  #    # ipv4
+  #    host  all      postgres 127.0.0.1/32 trust
+  #  '';
+  #  initialScript = pkgs.writeText "init-sql-script" ''
+  #    ALTER USER postgres WITH PASSWORD 'mypassword';
+  #  '';
+  #};
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

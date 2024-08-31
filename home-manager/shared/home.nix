@@ -22,12 +22,14 @@ in {
   };
 
   home.packages = with pkgs; [
+    inputs.rinder.packages.x86_64-linux.default
     sunpaper
     (callPackage ../../pkgs/rofi/package.nix { })
     zip
     unzip
     ripgrep
     gdrive3
+    find-cursor
     xmobar
     nodejs_22
     npm-check
@@ -61,6 +63,7 @@ in {
     xdotool
     bitwarden-cli
     btop
+    steam
 
     nixfmt-classic
     shfmt
@@ -72,6 +75,7 @@ in {
     nodePackages.typescript-language-server
     lua-language-server
     markdownlint-cli2
+    termonad
 
     texliveSmall
 
@@ -83,19 +87,16 @@ in {
     haskellPackages.stylish-haskell
     haskellPackages.cabal-fmt
     haskellPackages.fourmolu
-
-    purs
-    spago-unstable
-    purs-tidy-bin.purs-tidy-0_10_0
-
   ];
 
   systemd.user.services.rinderSession = {
     Install = { WantedBy = [ "default.target" ]; };
     Unit = { Description = "Rinder (track expenses)"; };
     Service = {
-      WorkingDirectory = "/home/ola/Code/rinder";
-      ExecStart = "/home/ola/.local/bin/rinder 1337";
+      WorkingDirectory = "/home/ola/Documents/rinder-docs";
+      ExecStart = "${
+          lib.getExe inputs.rinder.packages.x86_64-linux.default
+        } 1337 transactions.json shopping-list.json";
     };
   };
 
@@ -109,14 +110,14 @@ in {
 
         backup() {
           temp_file=$(${pkgs.coreutils}/bin/mktemp)
-          ${pkgs.zip}/bin/gzip -c /home/ola/Code/rinder/transactions.json > "$temp_file"
+          ${pkgs.zip}/bin/gzip -c /home/ola/Documents/rinder-docs/transactions.json > "$temp_file"
           ${pkgs.gdrive3}/bin/gdrive files update 1xJaSg5vrV9EXG36z74B5ynSgI6jzT-sJ --mime application/json "$temp_file"
           ${pkgs.coreutils}/bin/rm "$temp_file"
         }
 
         export -f backup
 
-        ${pkgs.coreutils}/bin/echo /home/ola/Code/rinder/transactions.json | ${pkgs.entr}/bin/entr -rpsn '${pkgs.coreutils}/bin/sleep 5m; backup'
+        ${pkgs.coreutils}/bin/echo /home/ola/Documents/rinder-docs/transactions.json | ${pkgs.entr}/bin/entr -rpsn '${pkgs.coreutils}/bin/sleep 5m; backup'
       ''}";
     };
   };
@@ -153,7 +154,6 @@ in {
     ".tmux.conf" = { source = ./tmux.conf; };
 
     ".config/zathura/zathurarc" = { source = ./zathurarc; };
-
   };
 
   # Enable home-manager and git
@@ -175,24 +175,12 @@ in {
       user = "git";
       identityFile = "/home/ola/.ssh/id_ed25519";
     };
-
-    "github.com-esgzonex" = {
-      hostname = "github.com";
-      user = "git";
-      identityFile = "/home/ola/.ssh/id_ed25519_esgzonex";
-    };
-
-    "ovh-server" = {
-      hostname = "51.254.34.164";
-      user = "nonroot";
-      port = 50579;
-      identityFile = "/home/ola/.ssh/id_ed25519_esgzonex";
-    };
   };
 
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
   };
 
   programs.zoxide.enable = true;
