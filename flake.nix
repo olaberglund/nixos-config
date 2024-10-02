@@ -32,6 +32,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.ola = import ./home-manager/shared/home.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
           }
         ];
       };
