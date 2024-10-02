@@ -1,17 +1,17 @@
 Config { 
 
    -- appearance
-     font =         "Iosevka:pixelsize=18:antialias=true:autohint=true"
+     font =         "Iosevka:pixelsize=12:antialias=true:autohint=true"
    , bgColor =      "#282828"
    , fgColor =      "#ebdbb2"
-   , position =     TopSize C 100 30
-   , additionalFonts = ["Hack Nerd Font 16"]
+   , position =     TopSize C 100 20
+   , additionalFonts = ["Hack Nerd Font 12"]
    , alpha = 230
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = " %UnsafeXMonadLog% } %time% { %volume% | %multicpu% | %memory% | %date% | %kbd% "
+   , template = " %UnsafeXMonadLog% } %time% { %multicpu% | %memory% | %volume% | %battery% | %date% | %kbd% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -93,13 +93,14 @@ Config {
 
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
+        , Run Date           "%F (%a)" "date" 10
         , Run Date           "%T" "time" 10
 
         -- keyboard layout indicator
-        , Run Kbd            [ ("se" , "<fc=#FFD300>SE</fc>")
-                             , ("us"         , "<fc=#8B0000>US</fc>")
+        , Run Kbd            [ ("se", "<fn=1>\xf0313</fn> 🇸🇪")
+                             , ("us"         , "<fn=1>\xf0313</fn> 🇺🇸")
                              ]
         , Run UnsafeXMonadLog
         ]
    }
+
