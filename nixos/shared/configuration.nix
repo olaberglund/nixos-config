@@ -129,7 +129,7 @@
 
   # Configure keymap in X11
   services.xserver = {
-    autoRepeatInterval = 10;
+    autoRepeatInterval = 15;
     autoRepeatDelay = 150;
     xkb = {
       layout = "us";
