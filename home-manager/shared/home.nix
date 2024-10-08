@@ -66,6 +66,7 @@ in {
     steam
     pyright
     anki
+    cachix
 
     nixfmt-classic
     shfmt

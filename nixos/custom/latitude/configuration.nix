@@ -1,6 +1,6 @@
 { inputs, lib, config, pkgs, ... }: {
 
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ../../../cachix.nix ];
 
   services.xserver.windowManager.xmonad.config = ./xmonad.hs;
 
@@ -19,6 +19,8 @@
   networking.hostName = "latitude";
 
   services.picom = { enable = true; };
+
+  nix.settings.trusted-users = [ "root" "ola" ];
 
   environment.systemPackages = with pkgs;
     [
