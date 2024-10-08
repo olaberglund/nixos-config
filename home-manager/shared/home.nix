@@ -56,6 +56,7 @@ in {
     dunst
     mpv
     libreoffice
+    poppler_utils
     entr
     ranger
     bitwarden-menu
@@ -132,6 +133,35 @@ in {
     Service = { ExecStart = "${pkgs.gromit-mpx}/bin/gromit-mpx"; };
   };
 
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions;
+      [
+        vscodevim.vim
+        haskell.haskell
+        justusadam.language-haskell
+        ms-python.python
+        ms-toolsai.jupyter
+        github.copilot
+        github.copilot-chat
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "lambda-black";
+          publisher = "janw4ld";
+          version = "0.2.7";
+          sha256 = "sha256-8qILFx84t6FkoyZkYdOdr38yW7PwQyQDrmSJXRPFXdw=";
+        }
+        {
+          name = "haskell-linter";
+          publisher = "hoovercj";
+          version = "0.0.6";
+          sha256 = "sha256-MjgqR547GC0tMnBJDMsiB60hJE9iqhKhzP6GLhcLZzk=";
+        }
+      ];
+
+    mutableExtensionsDir = false;
+  };
+
   home.file = {
     ".config/nvim" = {
       source = ./nvim;
@@ -181,6 +211,7 @@ in {
     enable = true;
     defaultEditor = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    plugins = [{ plugin = pkgs.vimPlugins.markdown-preview-nvim; }];
   };
 
   programs.zoxide.enable = true;
@@ -191,6 +222,7 @@ in {
     shellAliases = {
       ls = "eza";
       e = "nvim";
+      p = "zathura";
       gp = "git push";
       gs = "git status";
       gd = "git diff";
