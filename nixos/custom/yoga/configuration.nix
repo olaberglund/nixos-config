@@ -32,6 +32,7 @@
     };
     backend = "glx";
   };
+  powerManagement.resumeCommands = "sunpaper -d";
 
   networking.hostName = "yoga";
 
