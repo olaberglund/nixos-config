@@ -2,7 +2,7 @@ return {
   {
     "rcarriga/nvim-notify",
     opts = {
-      -- level = 4,
+      level = 4,
     },
   },
 }
