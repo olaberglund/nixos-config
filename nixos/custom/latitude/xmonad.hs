@@ -21,7 +21,8 @@ import           XMonad.Hooks.DynamicLog           (xmobarProp)
 import           XMonad.Hooks.EwmhDesktops         (ewmh, ewmhFullscreen)
 import           XMonad.Hooks.ManageDocks          (docks)
 import           XMonad.Hooks.StatusBar            (statusBarProp, withEasySB)
-import           XMonad.Hooks.StatusBar.PP         (filterOutWsPP, xmobarPP)
+import           XMonad.Hooks.StatusBar.PP         (PP (..), filterOutWsPP,
+                                                    xmobarPP)
 import           XMonad.StackSet                   (RationalRect (..),
                                                     focusWindow, greedyView,
                                                     integrate', peek, shift,
@@ -34,10 +35,15 @@ import           XMonad.Util.NamedScratchpad       (NamedScratchpad (..),
                                                     namedScratchpadManageHook,
                                                     scratchpadWorkspaceTag)
 
-mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/latitude/xmobarrc" myXmobarPP) hideSB
+mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/latitude/xmobarrc" myXmobar) hideSB
   where
     hideSB = const (modm, xK_b)
-    myXmobarPP = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP xmobarPP
+    myXmobar = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP myXmobarPP
+    myXmobarPP = xmobarPP{ppLayout = const "", ppTitle = \s -> if s == "" then "Nothing" else "Just (" <> trim s <> ")"}
+
+    trim s
+        | length s > 40 = take 40 s <> "..."
+        | otherwise = s
 
 main :: IO ()
 main =
@@ -83,7 +89,8 @@ keybindings =
     , ((modm, xK_w), dwmpromote)
     , ((modm, xK_space), runOrRaiseMasterShift browser (className =? "firefox"))
     , ((modm .|. shiftMask, xK_space), spawn browser)
-    , ((modm .|. shiftMask, xK_p), spawn "bwm")
+    , ((altMask, xK_p), spawn "hwarden")
+    , ((modm, xK_p), spawn "launcher_t1")
     , ((modm, xK_e), viewEmptyWorkspace)
     , ((modm .|. shiftMask, xK_s), sinkAll)
     , ((modm, 0xa7), namedScratchpadAction scratchpads "terminal")
@@ -101,8 +108,8 @@ keybindings =
     , ((altMask, xK_Shift_L), spawn toggleKbLangCmd)
     , ((modm, xK_Tab), toggleWS' [scratchpadWorkspaceTag])
     , ((modm, xK_o), nextScreen)
-    , ((altMask, xK_a), swapNextScreen)
-    ,
+    , -- , ((altMask, xK_a), swapNextScreen)
+
         ( (altMask, xK_r)
         , submap . Map.fromList $
             [((0, key), spawn (redshiftCmd level)) | (key, level) <- zip [xK_1 .. xK_5] [1 ..]]

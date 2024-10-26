@@ -65,6 +65,9 @@ in {
     bitwarden-cli
     btop
     steam
+    pyright
+    anki
+    cachix
 
     nixfmt-classic
     shfmt

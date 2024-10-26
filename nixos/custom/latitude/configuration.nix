@@ -1,6 +1,6 @@
 { inputs, lib, config, pkgs, ... }: {
 
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ../../../cachix.nix ];
 
   services.xserver.windowManager.xmonad.config = ./xmonad.hs;
 
@@ -19,6 +19,13 @@
   networking.hostName = "latitude";
 
   services.picom = { enable = true; };
+
+  nix.settings.trusted-users = [ "root" "ola" ];
+
+  services.xserver.displayManager.setupCommands = ''
+    ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1.25x1.25
+    ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
+  '';
 
   environment.systemPackages = with pkgs;
     [

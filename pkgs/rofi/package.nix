@@ -7,7 +7,7 @@ stdenvNoCC.mkDerivation {
     owner = "adi1090x";
     repo = "rofi";
     rev = "master";
-    hash = "sha256-IPtn0bDIUmSwm24YowURgNrs907RrcfrRM9TdhE2c0I=";
+    hash = "sha256-G3sAyIZbq1sOJxf+NBlXMOtTMiBCn6Sat8PHryxRS0w=";
   };
 
   buildInputs = [ rofi ];
