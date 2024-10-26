@@ -61,7 +61,6 @@ myConfig =
         , focusedBorderColor = lightGray
         , normalBorderColor = black
         , manageHook = myManageHook <+> manageHook def
-        , startupHook = myStartupHook
         }
         `additionalKeys` keybindings
 

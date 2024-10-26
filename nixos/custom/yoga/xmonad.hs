@@ -5,8 +5,9 @@ import           XMonad
 import           Control.Monad                     (forM_)
 import qualified Data.Map                          as Map
 import           Data.Maybe                        (isNothing)
-import           XMonad.Actions.CycleWS            (nextScreen, screenBy,
-                                                    swapNextScreen, toggleWS')
+import           XMonad.Actions.CycleWS            (nextScreen, prevScreen,
+                                                    screenBy, swapNextScreen,
+                                                    swapPrevScreen, toggleWS')
 import           XMonad.Actions.DwmPromote         (dwmpromote)
 import           XMonad.Actions.EasyMotion         (EasyMotionConfig (cancelKey),
                                                     selectWindow)
@@ -33,7 +34,8 @@ import           XMonad.StackSet                   (RationalRect (..),
                                                     screens, shift, stack,
                                                     swapMaster, tag, view,
                                                     visible, workspace)
-import           XMonad.Util.EZConfig              (additionalKeys)
+import           XMonad.Util.EZConfig              (additionalKeys,
+                                                    additionalMouseBindings)
 import           XMonad.Util.NamedScratchpad       (NamedScratchpad (..),
                                                     customFloating,
                                                     namedScratchpadAction,
@@ -77,18 +79,14 @@ myConfig =
         { terminal = myTerminal
         , modMask = modm
         , focusedBorderColor = lightGray
-        , borderWidth = 0
+        , borderWidth = 2
         , normalBorderColor = black
         , manageHook = myManageHook <+> manageHook def
         , layoutHook = smartSpacingWithEdge 5 $ layoutHook def
-        , startupHook = myStartupHook
         , logHook = myLogHook
         }
         `additionalKeys` keybindings
-
-myStartupHook :: X ()
-myStartupHook = do
-    spawn "sunpaper -d"
+        `additionalMouseBindings` mousebindings
 
 keybindings :: [((KeyMask, KeySym), X ())]
 keybindings =
@@ -96,8 +94,8 @@ keybindings =
     , ((modm, xK_Return), spawn $ myTerminal <> " -e tmux")
     , ((modm, xK_q), kill)
     , ((modm, xK_w), dwmpromote)
-    , ((modm, xK_space), runOrRaiseMasterShift browser (className =? "firefox"))
-    , ((modm .|. shiftMask, xK_space), spawn browser)
+    , -- , ((modm, xK_space), runOrRaiseMasterShift browser (className =? "firefox"))
+      ((modm, xK_space), spawn browser)
     , ((altMask, xK_p), spawn "hwarden")
     , ((modm, xK_p), spawn "launcher_t1")
     , ((modm, xK_e), viewEmptyWorkspace)
@@ -114,17 +112,23 @@ keybindings =
     , ((noModMask, 0x1008FF17), spawn "playerctl next") -- increase music volume
     , ((altMask, xK_Shift_L), spawn toggleKbLangCmd)
     , ((modm, xK_Tab), toggleWS' [scratchpadWorkspaceTag])
-    , ((modm, xK_o), nextScreen)
+    , ((modm, xK_i), nextScreen)
+    , ((modm, xK_o), prevScreen)
     , ((altMask, xK_a), swapNextScreen)
+    , ((altMask, xK_s), swapPrevScreen)
     ,
         ( (altMask, xK_r)
         , submap . Map.fromList $
             [((0, key), adjustLight level) | (key, level) <- zip [xK_1 .. xK_5] [1 ..]]
         )
-    , ((modm .|. shiftMask, xK_o), screenBy 1 >>= screenWorkspace >>= flip whenJust (windows . shift))
+    , ((modm .|. shiftMask, xK_i), screenBy 1 >>= screenWorkspace >>= flip whenJust (windows . shift))
+    , ((modm .|. shiftMask, xK_o), screenBy (-1) >>= screenWorkspace >>= flip whenJust (windows . shift))
     , ((0, xK_Menu), selectWindow def{cancelKey = xK_Escape} >>= (`whenJust` windows . focusWindow))
     , ((shiftMask, xK_Menu), selectWindow def >>= (`whenJust` killWindow))
     ]
+
+mousebindings :: [((ButtonMask, Button), Window -> X ())]
+mousebindings = [((altMask, button1), const $ spawn "find-cursor --color white --follow")]
 
 -- ifEmpty :: X () -> X ()
 -- ifEmpty = whenX (withWindowSet (return . isNothing . peek))
@@ -190,8 +194,7 @@ adjustLight level = do
             . screens
         )
   where
-    darken (S 1) t = ["-m", "randr:crtc=1", "-b", darkShade t]
-    darken (S 0) t = ["-m", "randr:crtc=0", "-b", darkShade t]
+    darken (S n) t = ["-m", "randr:crtc=" <> show n, "-b", darkShade t]
     darken _ _     = []
 
     darkShade (h, m) =
@@ -204,8 +207,7 @@ adjustLight level = do
         duration = 6 * 60
         diff = abs (startHour * 60 - (h * 60 + m))
 
-    lighten (S 1) = ["-m", "randr:crtc=1", "-b", "1"]
-    lighten (S 0) = ["-m", "randr:crtc=0", "-b", "1"]
+    lighten (S n) = ["-m", "randr:crtc=" <> show n, "-b", "1"]
     lighten _     = []
 
 redshiftCmd :: [String] -> Int -> String

@@ -144,6 +144,7 @@ in {
         ms-toolsai.jupyter
         github.copilot
         github.copilot-chat
+        shd101wyy.markdown-preview-enhanced
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "lambda-black";
@@ -177,9 +178,9 @@ in {
 
     ".config/bwm/config.ini" = { source = ./bwmrc; };
 
-    ".config/sunpaper/config" = { source = ./sunpaper; };
+    # ".config/sunpaper/config" = { source = ./sunpaper; };
 
-    # ".background-image" = { source = ./wallpaper.png; };
+    ".background-image" = { source = ./wallpaper.jpg; };
 
     ".tmux.conf" = { source = ./tmux.conf; };
 
@@ -211,7 +212,6 @@ in {
     enable = true;
     defaultEditor = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
-    plugins = [{ plugin = pkgs.vimPlugins.markdown-preview-nvim; }];
   };
 
   programs.zoxide.enable = true;
@@ -232,6 +232,7 @@ in {
       gsl = "git stash list --date=local";
       tk = "tmux kill-server";
       gt = "cd $_";
+      pdf = "zathura";
     };
     initExtra = ''
       KEYTIMEOUT=1;

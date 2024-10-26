@@ -13,7 +13,7 @@ in {
   programs = {
     firefox = {
       enable = true;
-      languagePacks = [ "de" "en-US" ];
+      languagePacks = [ "en-US" ];
 
       # ---- POLICIES ----
       # Check about:policies#documentation for options.
@@ -61,10 +61,10 @@ in {
               "https://addons.mozilla.org/firefox/downloads/latest/dark-theme-for-firefox/latest.xpi";
             installation_mode = "force_installed";
           };
-          # Vimium
-          "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+          # Surfingkeys
+          "{a8332c60-5b6d-41ee-bfc8-e9bb331d34ad}" = {
             install_url =
-              "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
+              "https://addons.mozilla.org/firefox/downloads/file/4221189/surfingkeys_ff-1.16.1.xpi";
             installation_mode = "force_installed";
           };
           "moz-addon-prod@7tv.app" = {

@@ -57,7 +57,6 @@
     pavucontrol
     eza
     xclip
-    gcc
     xorg.libxcvt
     gnumake
     zlib
