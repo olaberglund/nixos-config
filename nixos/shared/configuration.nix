@@ -16,6 +16,10 @@
       #     patches = [ ./change-hello-to-hi.patch ];
       #   });
       # })
+      (final: _prev: {
+        unstable =
+          import inputs.nixpkgs-unstable { inherit (final) system config; };
+      })
     ];
     # Configure your nixpkgs instance
     config = {

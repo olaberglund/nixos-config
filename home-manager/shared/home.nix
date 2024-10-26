@@ -2,11 +2,7 @@
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 { inputs, lib, config, pkgs, ... }:
 
-let
-  sunpaper = pkgs.sunpaper.overrideAttrs
-    # Needed for moonphases
-    (oldAttrs: { buildInputs = oldAttrs.buildInputs ++ [ pkgs.bc ]; });
-in {
+{
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -23,8 +19,11 @@ in {
 
   home.packages = with pkgs; [
     inputs.rinder.packages.x86_64-linux.default
-    sunpaper
+    (pkgs.sunpaper.overrideAttrs
+      # bc is needed for moonphases
+      (oldAttrs: { buildInputs = oldAttrs.buildInputs ++ [ pkgs.bc ]; }))
     (callPackage ../../pkgs/rofi/package.nix { })
+    unstable.lazygit
     zip
     unzip
     ripgrep
@@ -40,7 +39,6 @@ in {
     nerdfonts
     discord
     peek
-    lazygit
     redshift
     zathura
     pamixer
@@ -48,7 +46,6 @@ in {
     gromit-mpx
     bitwarden
     spotify
-    spotify-player
     btop
     nitrogen
     feh
@@ -68,6 +65,7 @@ in {
     pyright
     anki
     cachix
+    gcc
 
     nixfmt-classic
     shfmt
@@ -79,7 +77,6 @@ in {
     nodePackages.typescript-language-server
     lua-language-server
     markdownlint-cli2
-    termonad
 
     texliveSmall
 
