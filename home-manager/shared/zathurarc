@@ -58,6 +58,3 @@ unmap f
 map f toggle_fullscreen
 map [fullscreen] f toggle_fullscreen
 map p print
-map J zoom out
-map K zoom in
-map r rotate
