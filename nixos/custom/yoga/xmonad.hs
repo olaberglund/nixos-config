@@ -67,15 +67,15 @@ mySB = withEasySB (statusBarProp "xmobar" myXmobar) hideSB
 
 currentIcon :: String -> String
 currentIcon = \case
-    "1" -> "\xf03a4"
-    "2" -> "\xf03a7"
-    "3" -> "\xf03aa"
-    "4" -> "\xf03ad"
-    "5" -> "\xf03b1"
-    "6" -> "\xf03b3"
-    "7" -> "\xf03b6"
-    "8" -> "\xf03b9"
-    "9" -> "\xf03bc"
+    "1" -> "\xf03a5"
+    "2" -> "\xf03a8"
+    "3" -> "\xf03ab"
+    "4" -> "\xf03b2"
+    "5" -> "\xf03af"
+    "6" -> "\xf03b4"
+    "7" -> "\xf03b7"
+    "8" -> "\xf03ba"
+    "9" -> "\xf03bd"
     s -> s
 
 visibleIcon :: String -> String
