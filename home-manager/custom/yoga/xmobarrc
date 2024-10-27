@@ -5,7 +5,7 @@ Config {
    , bgColor =      "#000000"
    , fgColor =      "#ebdbb2"
    , position =     TopSize C 100 30
-   , additionalFonts = ["Hack Nerd Font 16"]
+   , additionalFonts = ["Hack Nerd Font 16", "Hack Nerd Font 18"]
    , alpha = 180
 
    -- layout

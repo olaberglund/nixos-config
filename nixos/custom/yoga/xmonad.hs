@@ -19,11 +19,12 @@ import           XMonad.Actions.WithAll            (sinkAll)
 import           XMonad.Actions.WorkspaceNames     (renameWorkspace,
                                                     workspaceNamesPP)
 import           XMonad.Config.Prime               (Query)
-import           XMonad.Hooks.DynamicLog           (xmobarProp)
+import           XMonad.Hooks.DynamicLog           (shorten, wrap, xmobarProp)
 import           XMonad.Hooks.EwmhDesktops         (ewmh, ewmhFullscreen)
 import           XMonad.Hooks.ManageDocks          (docks)
 import           XMonad.Hooks.StatusBar            (statusBarProp, withEasySB)
 import           XMonad.Hooks.StatusBar.PP         (PP (..), filterOutWsPP,
+                                                    xmobarColor, xmobarFont,
                                                     xmobarPP)
 import           XMonad.Layout.NoBorders           (Ambiguity (..), lessBorders,
                                                     noBorders)
@@ -49,15 +50,59 @@ import           System.FilePath                   (FilePath, (</>))
 import           System.Posix.Files                (touchFile)
 import           Text.Read                         (readMaybe)
 
-mySB = withEasySB (statusBarProp "xmobar /etc/nixos/nixos/custom/yoga/xmobarrc" myXmobar) hideSB
+mySB = withEasySB (statusBarProp "xmobar" myXmobar) hideSB
   where
     hideSB = const (modm, xK_b)
     myXmobar = filterOutWsPP [scratchpadWorkspaceTag] <$> workspaceNamesPP myXmobarPP
-    myXmobarPP = xmobarPP{ppLayout = const "", ppTitle = \s -> if s == "" then "Nothing" else "Just (" <> trim s <> ")"}
+    myXmobarPP =
+        xmobarPP
+            { ppLayout = const ""
+            , ppTitle = \case
+                "" -> xmobarColor "#a882f6" "" "Nothing"
+                s -> xmobarColor "#a882f6" "" "Just " <> "(" <> shorten 40 s <> ")"
+            , ppCurrent = xmobarFont 2 . currentIcon
+            , ppVisible = xmobarFont 2 . visibleIcon
+            , ppHidden = xmobarFont 2 . hiddenIcon
+            }
 
-    trim s
-        | length s > 40 = take 40 s <> "..."
-        | otherwise = s
+currentIcon :: String -> String
+currentIcon = \case
+    "1" -> "\xf03a4"
+    "2" -> "\xf03a7"
+    "3" -> "\xf03aa"
+    "4" -> "\xf03ad"
+    "5" -> "\xf03b1"
+    "6" -> "\xf03b3"
+    "7" -> "\xf03b6"
+    "8" -> "\xf03b9"
+    "9" -> "\xf03bc"
+    s -> s
+
+visibleIcon :: String -> String
+visibleIcon = \case
+    "1" -> "\xf03a6"
+    "2" -> "\xf03a9"
+    "3" -> "\xf03ac"
+    "4" -> "\xf03ae"
+    "5" -> "\xf03b0"
+    "6" -> "\xf03b5"
+    "7" -> "\xf03b8"
+    "8" -> "\xf03bb"
+    "9" -> "\xf03be"
+    s -> s
+
+hiddenIcon :: String -> String
+hiddenIcon = \case
+    "1" -> "\xf0b3a"
+    "2" -> "\xf0b3b"
+    "3" -> "\xf0b3c"
+    "4" -> "\xf0b3d"
+    "5" -> "\xf0b3e"
+    "6" -> "\xf0b3f"
+    "7" -> "\xf0b40"
+    "8" -> "\xf0b41"
+    "9" -> "\xf0b42"
+    s -> s
 
 main :: IO ()
 main =
@@ -126,6 +171,13 @@ keybindings =
     , ((0, xK_Menu), selectWindow def{cancelKey = xK_Escape} >>= (`whenJust` windows . focusWindow))
     , ((shiftMask, xK_Menu), selectWindow def >>= (`whenJust` killWindow))
     ]
+        ++
+        -- mod-[1..9] %! Switch to workspace N
+        -- mod-shift-[1..9] %! Move client to workspace N
+        [ ((m .|. modm, k), windows $ f i)
+        | (i, k) <- zip (workspaces myConfig) [xK_1 .. xK_9]
+        , (f, m) <- [(view, 0), (shift, shiftMask)]
+        ]
 
 mousebindings :: [((ButtonMask, Button), Window -> X ())]
 mousebindings = [((altMask, button1), const $ spawn "find-cursor --color white --follow")]

@@ -8,6 +8,8 @@
 
   home.packages = with pkgs; [ inputs.rinder.packages.x86_64-linux.default ];
 
+  home.file = { ".xmobarrc" = { source = ./xmobarrc; }; };
+
   systemd.user.services.rinderSession = {
     Install = { WantedBy = [ "default.target" ]; };
     Unit = { Description = "Rinder (track expenses)"; };
