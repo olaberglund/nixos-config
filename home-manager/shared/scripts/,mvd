@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+mv "$(eza -1 --absolute -sold ~/Downloads --no-quotes | head -n1)" .
