@@ -58,3 +58,4 @@ unmap f
 map f toggle_fullscreen
 map [fullscreen] f toggle_fullscreen
 map p print
+set selection-clipboard clipboard
