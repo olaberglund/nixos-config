@@ -168,7 +168,7 @@ keybindings =
         )
     , ((modm .|. shiftMask, xK_i), screenBy 1 >>= screenWorkspace >>= flip whenJust (windows . shift))
     , ((modm .|. shiftMask, xK_o), screenBy (-1) >>= screenWorkspace >>= flip whenJust (windows . shift))
-    , ((0, xK_Menu), selectWindow def{cancelKey = xK_Escape} >>= (`whenJust` windows . focusWindow))
+    , ((0, xK_Menu), spawn toggleKbLangCmd)
     , ((shiftMask, xK_Menu), selectWindow def >>= (`whenJust` killWindow))
     ]
         ++
