@@ -307,11 +307,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1722459901,
-        "narHash": "sha256-8xY44dWaYk64cQAsdvVorfp7DK6F+22nLEkZug5xOUs=",
+        "lastModified": 1735915655,
+        "narHash": "sha256-xUBRxzrdnap3YMx9T6X9qNM8M7zqDmIku7NrQXVOSuQ=",
         "owner": "olaberglund",
         "repo": "rinder",
-        "rev": "d86e30d25a1169e239040f5157e2df68e968ffcf",
+        "rev": "0f2129ab43f060ba0671ba57bb3103989980b735",
         "type": "github"
       },
       "original": {
