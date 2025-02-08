@@ -76,17 +76,11 @@
     nodePackages.typescript-language-server
     lua-language-server
     markdownlint-cli2
+    dconf
+    gtk4
 
     texliveSmall
 
-    # ghcid
-    # haskellPackages.stack
-    # haskellPackages.ghc
-    # haskellPackages.cabal-install
-    # haskellPackages.haskell-language-server
-    haskellPackages.stylish-haskell
-    haskellPackages.cabal-fmt
-    haskellPackages.fourmolu
   ];
 
   systemd.user.services.gromitSession = {
@@ -178,6 +172,15 @@
     enable = true;
     defaultEditor = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+  };
+
+  gtk.enable = true;
+  home.pointerCursor = {
+    package = pkgs.vanilla-dmz;
+    name = "Vanilla-DMZ";
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
   };
 
   programs.zoxide.enable = true;

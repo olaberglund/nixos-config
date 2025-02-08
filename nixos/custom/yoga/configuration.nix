@@ -74,9 +74,11 @@
           sha256 = "u8E8/aqbL3T4Sz0olazg7VYxq30haRdSB1SRy7MiZiA=";
         };
 
-        buildInputs = oldAttrs.buildInputs ++ [ harfbuzz ];
+        buildInputs = oldAttrs.buildInputs ++ [ harfbuzz xorg.libXcursor ];
 
         configFile = writeText "config.h" (builtins.readFile ./config.h);
+
+        patches = [ ./st-themed_cursor.diff ];
 
         postPatch = ''
           ${oldAttrs.postPatch}

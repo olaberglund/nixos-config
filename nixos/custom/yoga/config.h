@@ -165,11 +165,9 @@ static unsigned int cols = 80;
 static unsigned int rows = 24;
 
 /*
- * Default colour and shape of the mouse cursor
+ * Default shape of the mouse cursor
  */
-static unsigned int mouseshape = XC_xterm;
-static unsigned int mousefg = 7;
-static unsigned int mousebg = 0;
+static char* mouseshape = "left_ptr";
 
 /*
  * Color used to display font attributes when fontconfig selected a font which
