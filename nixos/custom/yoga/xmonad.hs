@@ -129,6 +129,7 @@ myConfig =
         , manageHook = myManageHook <+> manageHook def
         , layoutHook = smartSpacingWithEdge 5 $ layoutHook def
         , logHook = myLogHook
+        , startupHook = spawn "xsetroot -cursor_name left_ptr"
         }
         `additionalKeys` keybindings
         `additionalMouseBindings` mousebindings

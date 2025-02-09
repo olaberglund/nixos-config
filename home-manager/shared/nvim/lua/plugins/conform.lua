@@ -2,7 +2,7 @@ return {
   "stevearc/conform.nvim",
   opts = {
     formatters_by_ft = {
-      haskell = { "fourmolu", "my_stylish" },
+      haskell = { "fourmolu" }, -- , "my_stylish" },
       nix = { "my_nixfmt" },
       cabal = { "my_cabal_fmt" },
     },

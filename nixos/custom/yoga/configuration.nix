@@ -48,7 +48,6 @@
       --output $LEFT --mode 2560x1440 --rate 155 \
       --output $RIGHT --primary --mode 2560x1440 --pos 2560x0 --right-of $LEFT --rate 155 \
       --output $RIGHTRIGHT --scale 1.25x1.25 --mode 1920x1080 --pos 4000x0 --right-of $RIGHT
-    ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
   '';
 
   hardware.graphics.enable = true;
