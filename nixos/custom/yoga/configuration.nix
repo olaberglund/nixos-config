@@ -43,11 +43,11 @@
   services.xserver.displayManager.setupCommands = ''
     LEFT='DP-0'
     RIGHT='DP-4'
-    RIGHTRIGHT='HDMI-0'
+    # RIGHTRIGHT='HDMI-0'
     ${pkgs.xorg.xrandr}/bin/xrandr \
-      --output $LEFT --mode 2560x1440 --rate 155 \
-      --output $RIGHT --primary --mode 2560x1440 --pos 2560x0 --right-of $LEFT --rate 155 \
-      --output $RIGHTRIGHT --scale 1.25x1.25 --mode 1920x1080 --pos 4000x0 --right-of $RIGHT
+      --output $LEFT --primary --mode 2560x1440 --rate 155 \
+      --output $RIGHT --mode 2560x1440 --pos 2560x0 --right-of $LEFT --rate 155 \
+      # --output $RIGHTRIGHT --scale 1.25x1.25 --mode 1920x1080 --pos 4000x0 --right-of $RIGHT
   '';
 
   hardware.graphics.enable = true;
