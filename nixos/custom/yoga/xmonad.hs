@@ -49,6 +49,7 @@ import           System.Directory                  (doesFileExist)
 import           System.FilePath                   (FilePath, (</>))
 import           System.Posix.Files                (touchFile)
 import           Text.Read                         (readMaybe)
+import XMonad.Actions.GroupNavigation
 
 mySB = withEasySB (statusBarProp "xmobar" myXmobar) hideSB
   where
@@ -128,7 +129,7 @@ myConfig =
         , normalBorderColor = black
         , manageHook = myManageHook <+> manageHook def
         , layoutHook = smartSpacingWithEdge 5 $ layoutHook def
-        , logHook = myLogHook
+        , logHook = myLogHook <+> historyHook
         , startupHook = spawn "xsetroot -cursor_name left_ptr"
         }
         `additionalKeys` keybindings
@@ -162,6 +163,7 @@ keybindings =
     , ((modm, xK_o), prevScreen)
     , ((altMask, xK_a), swapNextScreen)
     , ((altMask, xK_s), swapPrevScreen)
+    , ((altMask, xK_Tab), nextMatch History (return True))
     ,
         ( (altMask, xK_r)
         , submap . Map.fromList $
